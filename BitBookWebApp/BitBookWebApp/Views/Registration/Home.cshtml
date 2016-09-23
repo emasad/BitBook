@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserHome</title>
+</head>
+<body>
+    @if (Session["email"] != null)
+    {
+        <text>
+            Welcome @Session["email"].ToString();
+            @Html.ActionLink("Logout", "Logout", "Registration")
+        </text>
+    }
+    else
+    {
+
+
+
+
+    }
+
+
+    <div>
+    </div>
+</body>
+</html>

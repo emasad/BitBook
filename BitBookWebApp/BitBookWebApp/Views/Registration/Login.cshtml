@@ -1,0 +1,53 @@
+﻿@model BitBookWebApp.Models.LogViewModel
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Content/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+
+        @using (Html.BeginForm("Login", "Registration", FormMethod.Post))
+        {
+            <table>
+                <tr>
+                    <td>@Html.Label("Enter Email Address ")</td>
+                    <td>
+                        @Html.TextBoxFor(a => a.Email)
+                        @Html.ValidationMessageFor(a => a.Email)
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>@Html.Label("Enter Password ")</td>
+                    <td>
+                        @Html.PasswordFor(a => a.Password)
+                        @Html.ValidationMessageFor(a => a.Password)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" id="submitbtn" value="Login" /></td>
+                </tr>
+            </table>
+
+        }
+        @Html.ActionLink("Create New Account", "Index", "Registration")
+    </div>
+
+</div>
+
+    <script src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
