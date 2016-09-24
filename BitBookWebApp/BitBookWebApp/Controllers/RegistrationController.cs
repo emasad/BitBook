@@ -134,6 +134,84 @@ namespace BitBookWebApp.Controllers
         }
         
 
+        //Add basic informations
+        public ActionResult BasicInformation()
+        {
+            return View();
+        }
+
+        //File and BasicInfo Upload
+        public ActionResult BasicInfoUpload(IEnumerable<HttpPostedFileBase> files)
+        {
+            if (ModelState.IsValid)
+            {
+                if (files != null)
+                {
+                    BitBookContext db=new BitBookContext();
+
+                    string coverImg = null;
+                    string profileImg = null;
+                    
+                    IList<HttpPostedFileBase> list = (IList<HttpPostedFileBase>)files;
+                    for (int i = 0; i < files.Count(); i++)
+                    {
+                        if (list[i].ContentLength > 0 && i == 0)
+                        {
+                            //Cover Photo
+
+                            coverImg = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(list[i].FileName);
+
+                            string physicalPath = System.IO.Path.Combine(Server.MapPath("~/Images/coverPic"), coverImg);
+
+                            // save image in folder
+                            list[i].SaveAs(physicalPath);
+
+                        }
+                        else if (list[i].ContentLength > 0)
+                        {
+                            //Profile Photo
+
+                            profileImg = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(list[i].FileName);
+
+                            string physicalPathCover = System.IO.Path.Combine(Server.MapPath("~/images/profilePic"), profileImg);
+
+                            // save image in folder
+                            list[i].SaveAs(physicalPathCover); ;
+                        }
+                    }
+
+                    //User Id find
+                    string userEmail = "";
+                    userEmail = Session["email"].ToString();
+
+                    var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+                    //save new record in database
+                    BasicInfo aBasicInfo=new BasicInfo();
+                    aBasicInfo.UserId = user.Id;
+                    aBasicInfo.CoverPicUrl = coverImg;
+                    aBasicInfo.ProfilePicUrl = profileImg;
+                    aBasicInfo.About = Request.Form["About"];
+                    aBasicInfo.AreaOfInterest = Request.Form["AreaOfInterest"];
+                    aBasicInfo.Location = Request.Form["Location"];
+                    aBasicInfo.Education = Request.Form["Education"];
+                    aBasicInfo.Experience = Request.Form["Experience"];
+                    //Save in db
+                    db.BasicInfos.Add(aBasicInfo);
+                    db.SaveChanges();
+
+
+                }
+
+                return RedirectToAction("Home", "Registration");
+                
+
+            }
+            return RedirectToAction("Login", "Registration");
+        }
+
+
+        //
+
         //
     }
 }

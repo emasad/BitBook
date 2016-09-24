@@ -134,7 +134,16 @@
     <Compile Include="Migrations\201609230914320_UserRegistrationTableIsCreatedInDB.Designer.cs">
       <DependentUpon>201609230914320_UserRegistrationTableIsCreatedInDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609241601548_BasicInfoIsAdded.cs" />
+    <Compile Include="Migrations\201609241601548_BasicInfoIsAdded.Designer.cs">
+      <DependentUpon>201609241601548_BasicInfoIsAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609241608165_UpdateBasicInfoTable.cs" />
+    <Compile Include="Migrations\201609241608165_UpdateBasicInfoTable.Designer.cs">
+      <DependentUpon>201609241608165_UpdateBasicInfoTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BasicInfo.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -144,6 +153,7 @@
     <Content Include="Views\Registration\Index.cshtml" />
     <Content Include="Views\Registration\Login.cshtml" />
     <Content Include="Views\Registration\Home.cshtml" />
+    <Content Include="Views\Registration\BasicInformation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -153,10 +163,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\coverPic\" />
+    <Folder Include="Images\profilePic\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201609230914320_UserRegistrationTableIsCreatedInDB.resx">
       <DependentUpon>201609230914320_UserRegistrationTableIsCreatedInDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609241601548_BasicInfoIsAdded.resx">
+      <DependentUpon>201609241601548_BasicInfoIsAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609241608165_UpdateBasicInfoTable.resx">
+      <DependentUpon>201609241608165_UpdateBasicInfoTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,57 @@
+﻿@model BitBookWebApp.Models.BasicInfo
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>BasicInfo</title>
+</head>
+<body>
+<div>
+    @if (Session["Email"] != null)
+    {
+        using (Html.BeginForm("BasicInfoUpload", "Registration", FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+        {
+
+            <div>
+
+                Cover Photo<br />
+                <input type="file" name="files" id="file" style="width: 100%;" /> <br />
+                Profile Photo<br />
+                <input type="file" name="files" id="coverFile" style="width: 100%;" /> <br />
+
+                <br />
+                About<br />
+                @Html.TextBox("About") <br />
+                Area Of Interest<br />
+                @Html.TextBox("AreaOfInterest") <br />
+                Location<br />
+                @Html.TextBox("Location") <br />
+                Education<br />
+                @Html.TextBox("Education") <br />
+                Experience<br />
+                @Html.TextBox("Experience") <br />
+
+                <br />
+
+                <input type="submit" value="Upload" class="submit" />
+
+            </div>
+        }
+    }
+    else
+    {
+        @Html.ActionLink("Login", "Login", "Registration")
+
+    }
+
+
+
+</div>
+</body>
+</html>

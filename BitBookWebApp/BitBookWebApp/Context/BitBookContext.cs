@@ -11,6 +11,8 @@ namespace BitBookWebApp.Context
     {
         public BitBookContext() : base("BitBookConnection") { }
 
-        public DbSet<User> Users { get; set; } 
+        public DbSet<User> Users { get; set; }
+        public DbSet<BasicInfo> BasicInfos { get; set; } 
+
     }
 }
