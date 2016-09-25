@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -101,7 +102,7 @@
 
                                 </li>
                                 <li>
-                                    <a href="#"><span class="badge">Welcome @Session["email"].ToString()</span></a>
+                                    <a href="#"><span class="badge">Welcome </span></a>
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
@@ -132,7 +133,8 @@
                                     <div class="panel panel-default">
                                         <div class="panel-thumbnail"><img src="~/assets/img/bg_5.jpg" class="img-responsive"></div>
                                         <div class="panel-body">
-                                            <p class="lead">Urbanization</p>
+                                            <p class="lead">Profile Photo</p>
+                                            <p><a href="#" class="pull-right">Change Profile Photo </a></p>
                                             <p>45 Followers, 13 Posts</p>
 
                                             <p>
@@ -197,16 +199,11 @@
 
 
                                     <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>BitBook Editor &amp; Code Library</h4></div>
+                                        <div class="panel-heading"><a href="#" class="pull-right">Change Cover Photo </a> <h4>Cover Photo</h4></div>
                                         <div class="panel-body">
-                                            <p><img src="~/assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">The Bootstrap Playground</a></p>
+                                            <p><img src="~/assets/img/bg_5.jpg" class="img-responsive"> <a href="#"></a></p>
                                             <div class="clearfix"></div>
                                             <hr>
-                                            Design, build, test, and prototype
-                                            using Bootstrap in real-time from your Web browser. BitBook combines the
-                                            power of hand-coded HTML, CSS and JavaScript with the benefits of
-                                            responsive design using Bootstrap. Find and showcase Bootstrap-ready
-                                            snippets in the 100% free BitBook.com code repository.
                                         </div>
                                     </div>
 
@@ -233,12 +230,16 @@
                                     </div>
 
                                     <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Portlet Heading</h4></div>
+                                        <div class="panel-heading"><a href="#" class="pull-right">Edit Basic Information</a> <h4>Basic Information</h4></div>
                                         <div class="panel-body">
                                             <ul class="list-group">
-                                                <li class="list-group-item">Modals</li>
-                                                <li class="list-group-item">Sliders / Carousel</li>
-                                                <li class="list-group-item">Thumbnails</li>
+                                                <li class="list-group-item">About<p class="list-group-item">Thinking</p></li>
+                                                <li class="list-group-item">Area Of Interest<p class="list-group-item">Thinking</p></li>
+                                                <li class="list-group-item">Location<p class="list-group-item">Thinking</p></li>
+                                                <li class="list-group-item">Education<p class="list-group-item">Thinking</p></li>
+                                                <li class="list-group-item">Experience<p class="list-group-item">Thinking</p></li>
+
+
                                             </ul>
                                         </div>
                                     </div>
@@ -327,15 +328,15 @@
     <script type="text/javascript" src="~/assets/js/jquery.js"></script>
     <script type="text/javascript" src="~/assets/js/bootstrap.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('[data-toggle=offcanvas]').click(function () {
-                $(this).toggleClass('visible-xs text-center');
-                $(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
-                $('.row-offcanvas').toggleClass('active');
-                $('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
-                $('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
-                $('#btnShow').toggle();
-            });
+        $(document).ready(function() {
+			$('[data-toggle=offcanvas]').click(function() {
+				$(this).toggleClass('visible-xs text-center');
+				$(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
+				$('.row-offcanvas').toggleClass('active');
+				$('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
+				$('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
+				$('#btnShow').toggle();
+			});
         });
     </script>
 </body>

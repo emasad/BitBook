@@ -206,36 +206,38 @@ namespace BitBookWebApp.Controllers
                             IList<HttpPostedFileBase> list = (IList<HttpPostedFileBase>)files;
 
 
-                            for (int i = 0; i < files.Count(); i++)
+
+                            if (list[0] != null)
                             {
-                                if (list[0] != null || list[1] != null)
+                                if (list[0].ContentLength > 0 )
                                 {
-                                    if (list[i].ContentLength > 0 && i == 0)
-                                    {
-                                        //Cover Photo
+                                    //Cover Photo
 
-                                        coverImg = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(list[i].FileName);
+                                    coverImg = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(list[0].FileName);
 
-                                        string physicalPath = System.IO.Path.Combine(Server.MapPath("~/Images/coverPic"), coverImg);
+                                    string physicalPath = System.IO.Path.Combine(Server.MapPath("~/Images/coverPic"), coverImg);
 
-                                        // save image in folder
-                                        list[i].SaveAs(physicalPath);
+                                    // save image in folder
+                                    list[0].SaveAs(physicalPath);
 
-                                    }
-                                    else if (list[i].ContentLength > 0 || list[i] != null)
-                                    {
-                                        //Profile Photo
-
-                                        profileImg = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(list[i].FileName);
-
-                                        string physicalPathCover = System.IO.Path.Combine(Server.MapPath("~/images/profilePic"), profileImg);
-
-                                        // save image in folder
-                                        list[i].SaveAs(physicalPathCover); ;
-                                    }
                                 }
                             }
 
+                            if (list[1] != null)
+                            {
+
+                                if (list[1].ContentLength > 0)
+                                {
+                                    //Profile Photo
+
+                                    profileImg = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(list[1].FileName);
+
+                                    string physicalPathCover = System.IO.Path.Combine(Server.MapPath("~/images/profilePic"), profileImg);
+
+                                    // save image in folder
+                                    list[1].SaveAs(physicalPathCover); ;
+                                }
+                            }
                             //User Id find
                             
                             //save new record in database
@@ -271,7 +273,15 @@ namespace BitBookWebApp.Controllers
 
 
         //User Profile
-        
+        //User Profile
+        public ActionResult UserProfile()
+        {
+            return View();
+        }
+
+
+
+        //
 
         //
     }
