@@ -5,102 +5,124 @@
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <link href="~/Content/site.css" rel="stylesheet" />
-    <title>Index</title>
+    <title>Registration</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--  <style>
+       body {
+        background: url('img.jpg');
+        background-size: 1440px 800px;
+        background-repeat:no-repeat;
+       }
+     </style> -->
 </head>
-<body>
+<body style="background-color:#BFC4CD" class="img-responsive">
+    @ViewBag.StatusMessage
 
+    <div class="container">
+        <div class="jumbotron" style="text-align: center">
+            <h1 style="font-family:Rockwell">Welcome To BitBook</h1>
+        </div>
+        <br />
+        <br />
+        <div>
+            @using (Html.BeginForm(FormMethod.Post))
+            {
+                <form>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div class="form-group">
+                                @Html.TextBoxFor(a => a.FirstName, new { @class = "form-control input-sm", placeholder = "First Name" })
+                                @Html.ValidationMessageFor(a => a.FirstName)
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div class="form-group">
+                                @Html.TextBoxFor(a => a.SurName, new { @class = "form-control input-sm", placeholder = "Surname" })
+                                @Html.ValidationMessageFor(a => a.SurName)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                            <div class="form-group">
+                                @Html.TextBoxFor(a => a.Email, new { @class = "form-control input-sm", placeholder = "someone@example.com" })
+                                @Html.ValidationMessageFor(a => a.Email)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                                &nbsp;&nbsp;&nbsp;@Html.RadioButtonFor(a => a.Gender, "Male")Male&nbsp;
+                                @Html.RadioButtonFor(a => a.Gender, "Female")Female
+                                @Html.ValidationMessageFor(a => a.Gender)
+       
+                        </div>
+                        </div>
 
-    @ViewBag.StatusMessage 
-<div>
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control input-sm", placeholder = "Your Birthdate" })
+                            @Html.ValidationMessageFor(a => a.DateOfBirth)
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <div class="form-group">
+                            @Html.PasswordFor(a => a.Password, new { @class = "form-control input-sm", placeholder = "Enter Password" })
+                            @Html.ValidationMessageFor(a => a.Password)
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <div class="form-group">
+                            @Html.PasswordFor(a => a.ConfirmPassword, new { @class = "form-control input-sm", placeholder = "Repeat password" })
+                            @Html.ValidationMessageFor(a => a.ConfirmPassword)
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Register" class="btn btn-primary">
+            </form>
+            }
+        </div>
+    </div>
+    <br />
+    <div>
+        <div><p style="text-align: left; margin-left:200px">Already Registered?@*@Html.ActionLink("Login", "Login", "Registration")*@
+            
+                 <button class="btn btn-success" onclick="javascript:window.location=('@Url.Action("Login", "Registration", null)')">
+                     Login
+                 </button></p>
+        </div>
 
-    @using (Html.BeginForm(FormMethod.Post))
-    {
-        <table>
-            <tr>
-                <td>First Name</td>
-                <td>
-                    @Html.TextBoxFor(a => a.FirstName)
-                    @Html.ValidationMessageFor(a => a.FirstName)
-                </td>
-            </tr>
+    </div>
+    <script src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+@*<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $(document)
+            .ready(function () {
+                $("#DateOfBirth").datepicker({
+                    yearRange: "-100:+0",
+                    changeMonth: true,
+                    changeYear: true,
+                    autoclose: true,
+                    clearBtn: true,
+                    daysOfWeekDisabled: [0, 6]
+                });
+            });
+    </script>
 
-            <tr>
-                <td>Sur Name</td>
-                <td>
-                    @Html.TextBoxFor(a => a.SurName)
-                    @Html.ValidationMessageFor(a => a.SurName)
-                </td>
-            </tr>
-
-            <tr>
-                <td>@Html.LabelFor(a => a.Email)</td>
-                <td>
-                    @Html.TextBoxFor(a => a.Email)
-                    @Html.ValidationMessageFor(a => a.Email)
-                </td>
-            </tr>
-
-            <tr>
-                <td>@Html.LabelFor(a => a.Gender)</td>
-                <td>
-                    @Html.RadioButtonFor(a => a.Gender, "Male")Male
-                    @Html.RadioButtonFor(a => a.Gender, "Female") Female
-                    @Html.ValidationMessageFor(a => a.Gender)
-                </td>
-            </tr>
-
-            <tr>
-                <td>@Html.LabelFor(a => a.DateOfBirth)</td>
-                <td>
-                    @Html.TextBoxFor(model => model.DateOfBirth, new
-                    {
-                        @class = "form-control",
-                        type = "date"
-                    })
-
-                    @Html.ValidationMessageFor(a => a.DateOfBirth)
-                </td>
-            </tr>
-
-
-            <tr>
-                <td>@Html.LabelFor(a => a.Password)</td>
-                <td>
-                    @Html.PasswordFor(a => a.Password)
-                    @Html.ValidationMessageFor(a => a.Password)
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(a => a.ConfirmPassword)</td>
-                <td>
-                    @Html.PasswordFor(a => a.ConfirmPassword)
-                    @Html.ValidationMessageFor(a => a.ConfirmPassword)
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Register"/></td>
-            </tr>
-        </table>
-    }
-
-
-</div>
-
-<div>
-    @Html.ActionLink("Login", "Login", "Registration")
-
-</div>
-
-
-<script src="~/Scripts/jquery-3.1.0.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 </body>
 </html>
