@@ -271,6 +271,7 @@
     <Compile Include="BitBook.Core\DAL\RegistrationGateway.cs" />
     <Compile Include="Context\BitBookContext.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -287,6 +288,7 @@
       <DependentUpon>201609241608165_UpdateBasicInfoTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BasicInfo.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -298,6 +300,9 @@
     <Content Include="Views\Registration\Home.cshtml" />
     <Content Include="Views\Registration\BasicInformation.cshtml" />
     <Content Include="Views\Registration\UserProfile.cshtml" />
+    <Content Include="Views\Registration\Profile.cshtml" />
+    <Content Include="Views\Registration\NotExists.cshtml" />
+    <Content Include="Views\Settings\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

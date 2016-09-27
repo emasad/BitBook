@@ -276,11 +276,68 @@ namespace BitBookWebApp.Controllers
         //User Profile
         public ActionResult UserProfile()
         {
-            return View();
+            if (Session["email"] != null)
+            {
+                
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+                var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(user.Id)).FirstOrDefault();
+                ViewBag.UserInfo = userInfo;
+                return View();
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
         }
 
+        //specific user profile 
+        public ActionResult Profile(int id)
+        {
+            if (Session["email"] != null)
+            {
+                //check that user id is exist
+                BitBookContext db = new BitBookContext();
 
 
+                var user = db.BasicInfos.Where(x => x.UserId.Equals(id)).FirstOrDefault();
+
+                if (user != null)
+                {
+                    
+                }
+
+                else
+                {
+                    
+                }
+
+
+                //BitBookContext db = new BitBookContext();
+
+                //string userEmail = "";
+                //userEmail = Session["email"].ToString();
+
+                //var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+                //var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(user.Id)).FirstOrDefault();
+                //ViewBag.UserInfo = userInfo;
+                return View();
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
         //
 
         //
