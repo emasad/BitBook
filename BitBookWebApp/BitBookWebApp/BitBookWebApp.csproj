@@ -301,8 +301,9 @@
     <Content Include="Views\Registration\BasicInformation.cshtml" />
     <Content Include="Views\Registration\UserProfile.cshtml" />
     <Content Include="Views\Registration\Profile.cshtml" />
-    <Content Include="Views\Registration\NotExists.cshtml" />
     <Content Include="Views\Settings\ChangePassword.cshtml" />
+    <Content Include="Views\Registration\NotExist.cshtml" />
+    <Content Include="Views\Registration\SearchUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

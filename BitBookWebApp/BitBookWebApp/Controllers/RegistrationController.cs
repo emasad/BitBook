@@ -108,6 +108,7 @@ namespace BitBookWebApp.Controllers
         }
 
 
+
         //Get: Home
         public ActionResult Home()
         {
@@ -311,11 +312,17 @@ namespace BitBookWebApp.Controllers
 
                 if (user != null)
                 {
-                    
+                    //if friend
+
+
+                    //else not friend
+                    ViewBag.UserInfo = user;
+
                 }
 
                 else
                 {
+                    return RedirectToAction("NotExist", "Registration");
                     
                 }
 
@@ -338,7 +345,44 @@ namespace BitBookWebApp.Controllers
 
             }
         }
-        //
+
+        //Not exists user view
+        public ActionResult NotExist()
+        {
+            return View();
+
+        }
+        
+        //Search action
+        public ActionResult SearchUser(string searchTerm)
+        {
+            
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+                List<User> users;
+                if (string.IsNullOrEmpty(searchTerm))
+                {
+                    ViewBag.Message = "Fill the search box";
+                    users = null;
+                }
+                else
+                {
+                    users = db.Users.Where(x => x.FirstName.StartsWith(searchTerm)).ToList();
+
+                }
+                
+                return View(users);
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
 
         //
     }

@@ -1,0 +1,51 @@
+﻿@using BitBookWebApp.Context
+@model IEnumerable<BitBookWebApp.Models.User>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SearchUser</title>
+</head>
+<body>
+<div>
+    @if (Model != null)
+    {
+        <table>
+            @ViewBag.Message
+            @foreach (var item in Model)
+            {
+                BitBookContext db = new BitBookContext();
+
+
+                var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(item.Id)).FirstOrDefault();
+                <tr>
+
+                    <td>
+                        <p><a href="~/Registration/Profile/@item.Id"><img src="~/Images/coverPic/@userInfo.CoverPicUrl" style="height: 40px"></a></p>
+                    </td>
+                    <td><a href="~/Registration/Profile/@item.Id">@item.FirstName </a></td>
+
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <p>@ViewBag.Message
+        </p>
+    }
+    
+
+
+
+
+</div>
+</body>
+</html>
