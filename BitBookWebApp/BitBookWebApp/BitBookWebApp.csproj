@@ -316,6 +316,8 @@
     <Content Include="Views\Registration\NotExist.cshtml" />
     <Content Include="Views\Registration\SearchUser.cshtml" />
     <Content Include="Views\Registration\SendRequest.cshtml" />
+    <Content Include="Views\Registration\AcceptRequest.cshtml" />
+    <Content Include="Views\Registration\Unfriend.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
