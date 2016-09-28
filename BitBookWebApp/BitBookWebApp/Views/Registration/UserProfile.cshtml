@@ -6,9 +6,14 @@
     
     BasicInfo aUser= new BasicInfo();
     aUser = ViewBag.UserInfo;
-    
-    
-    
+
+
+    BitBookContext db = new BitBookContext();
+
+    string userEmail = "";
+    userEmail = Session["email"].ToString();
+
+    var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
     
     
     
@@ -114,7 +119,8 @@
                                 </li>
                                 <li>
                                     
-                                    <a href="~/Registration/UserProfile"><span class="badge">Welcome </span></a>
+                                    <a href="~/Registration/UserProfile"><span class="badge">@user.FirstName @user.SurName</span></a>
+
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
@@ -218,12 +224,7 @@
 
                                     @{
                                         
-                                        BitBookContext db = new BitBookContext();
-
-                                        string userEmail = "";
-                                        userEmail = Session["email"].ToString();
-
-                                        var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+                                        
                                         var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(user.Id)).FirstOrDefault();
 
                                         var userPosts = db.UserPosts.Where(p => p.UserId == user.Id);

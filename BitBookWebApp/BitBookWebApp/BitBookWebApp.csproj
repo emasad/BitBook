@@ -299,8 +299,13 @@
     <Compile Include="Migrations\201609281007155_UserPostsEntityIsCreated.Designer.cs">
       <DependentUpon>201609281007155_UserPostsEntityIsCreated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609281632315_LikePostsCreated.cs" />
+    <Compile Include="Migrations\201609281632315_LikePostsCreated.Designer.cs">
+      <DependentUpon>201609281632315_LikePostsCreated.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BasicInfo.cs" />
+    <Compile Include="Models\LikePost.cs" />
     <Compile Include="Models\UserFriend.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
@@ -354,6 +359,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609281007155_UserPostsEntityIsCreated.resx">
       <DependentUpon>201609281007155_UserPostsEntityIsCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609281632315_LikePostsCreated.resx">
+      <DependentUpon>201609281632315_LikePostsCreated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
