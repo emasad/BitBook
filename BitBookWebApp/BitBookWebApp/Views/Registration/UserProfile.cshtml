@@ -1,10 +1,16 @@
-﻿@using BitBookWebApp.Models
+﻿@using BitBookWebApp.Context
+@using BitBookWebApp.Models
 
 @{
     Layout = null;
     
     BasicInfo aUser= new BasicInfo();
     aUser = ViewBag.UserInfo;
+    
+    
+    
+    
+    
     
 }
 <!DOCTYPE html>
@@ -157,16 +163,23 @@
                                     </div>
 
 
-                                    
+
 
                                     <div class="well">
-                                        <form class="form-horizontal" role="form">
-                                            <h4>What's New</h4>
-                                            <div class="form-group" style="padding:14px;">
-                                                <textarea class="form-control" placeholder="Update your status"></textarea>
+
+                                        @using (Html.BeginForm("PostContent", "Registration", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <div>
+                                                Post<br />
+                                                @*<input class="form-control" name="PostText" id="srch-term" type="text">*@<br/>
+                                                <div class="form-group" style="padding:14px;">
+                                                    <textarea class="form-control" name="PostText" id="srch-term" placeholder="Update your status"></textarea>
+                                                </div>
+                                                <input type="file" name="file" id="file" style="width: 100%;" /> <br />
+                                                <input type="submit" value="Post" class="submit" />
                                             </div>
-                                            <button class="btn btn-primary pull-right" type="button">Post</button><ul class="list-inline"><li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li><li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li><li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li></ul>
-                                        </form>
+                                        }
+                                        
                                     </div>
 
                                     
@@ -182,43 +195,84 @@
 
 
                                     <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">Edit Basic Information</a> <h4>Basic Information</h4></div>
+                                        <div class="panel-heading"><a href="#" class="pull-right">Edit Basic Information</a> <h4>Basic Information</h4>
+                                        </div>
                                         <div class="panel-body">
                                             <ul class="list-group">
-                                                <li class="list-group-item">About<p class="list-group-item">@aUser.About</p></li>
-                                                <li class="list-group-item">Area Of Interest<p class="list-group-item">@aUser.AreaOfInterest</p></li>
-                                                <li class="list-group-item">Location<p class="list-group-item">@aUser.Location</p></li>
-                                                <li class="list-group-item">Education<p class="list-group-item">@aUser.Education</p></li>
-                                                <li class="list-group-item">Experience<p class="list-group-item">@aUser.Experience</p></li>
+                                                <li class="list-group-item">About
+                                                    <p class="list-group-item">@aUser.About</p></li>
+                                                <li class="list-group-item">Area Of Interest
+                                                    <p class="list-group-item">@aUser.AreaOfInterest</p></li>
+                                                <li class="list-group-item">Location
+                                                    <p class="list-group-item">@aUser.Location</p></li>
+                                                <li class="list-group-item">Education
+                                                    <p class="list-group-item">@aUser.Education</p></li>
+                                                <li class="list-group-item">Experience
+                                                    <p class="list-group-item">@aUser.Experience</p></li>
 
 
                                             </ul>
                                         </div>
                                     </div>
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Stackoverflow</h4></div>
-                                        <div class="panel-body">
-                                            <img src="~/assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">Keyword: Bootstrap</a>
-                                            <div class="clearfix"></div>
-                                            <hr>
 
-                                            <p>If you're looking for help with Bootstrap code, the <code>twitter-bootstrap</code> tag at <a href="http://stackoverflow.com/questions/tagged/twitter-bootstrap">Stackoverflow</a> is a good place to find answers.</p>
+                                    @{
+                                        
+                                        BitBookContext db = new BitBookContext();
 
-                                            <hr>
-                                            <form>
-                                                <div class="input-group">
-                                                    <div class="input-group-btn">
-                                                        <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
+                                        string userEmail = "";
+                                        userEmail = Session["email"].ToString();
+
+                                        var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+                                        var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(user.Id)).FirstOrDefault();
+
+                                        var userPosts = db.UserPosts.Where(p => p.UserId == user.Id);
+                                        
+                                    }
+
+
+                                    @foreach (var item in userPosts)
+                                    {
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <a href="#" class="pull-right">Remove Post</a> <h4>@item.CurrretTime</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" class="img-circle pull-right"> <a href="~/Registration/Profile/@item.UserId">@user.FirstName @user.SurName</a>
+                                                <div class="clearfix"></div>
+                                                <hr>
+
+                                                <p>
+                                                    @item.PostText
+                                                </p>
+                                                <div class="panel-thumbnail"><img src="~/Images/postImages/@item.ImageUrl" class="img-responsive"></div>
+                                                <hr>
+                                                <form>
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
+                                                        </div>
+                                                        <input class="form-control" placeholder="Add a comment.." type="text">
                                                     </div>
-                                                    <input class="form-control" placeholder="Add a comment.." type="text">
-                                                </div>
-                                            </form>
+                                                </form>
+                                                <section class="col-md-2 ">
+                                                    <i class="fa fa-thumbs-up "></i><a href="#"> Thanks </a>| <i class="fa fa-warning "></i><a href="#"> Report </a>
+                                                </section>
+                                            </div>
 
                                         </div>
-                                    </div>
+
+                                    }
+
 
                                     
+
+
+
+
+
+
+
 
                                     <div class="panel panel-default">
                                         <div class="panel-thumbnail"><img src="~/assets/img/bg_4.jpg" class="img-responsive"></div>

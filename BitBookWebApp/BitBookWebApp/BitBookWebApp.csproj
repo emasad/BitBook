@@ -295,6 +295,10 @@
     <Compile Include="Migrations\201609280107365_UdpateUserFriendModel.Designer.cs">
       <DependentUpon>201609280107365_UdpateUserFriendModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609281007155_UserPostsEntityIsCreated.cs" />
+    <Compile Include="Migrations\201609281007155_UserPostsEntityIsCreated.Designer.cs">
+      <DependentUpon>201609281007155_UserPostsEntityIsCreated.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BasicInfo.cs" />
     <Compile Include="Models\UserFriend.cs" />
@@ -328,7 +332,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\coverPic\" />
+    <Folder Include="Images\postImages\" />
     <Folder Include="Images\profilePic\" />
+    <Folder Include="PostImages\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201609230914320_UserRegistrationTableIsCreatedInDB.resx">
@@ -345,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609280107365_UdpateUserFriendModel.resx">
       <DependentUpon>201609280107365_UdpateUserFriendModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609281007155_UserPostsEntityIsCreated.resx">
+      <DependentUpon>201609281007155_UserPostsEntityIsCreated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

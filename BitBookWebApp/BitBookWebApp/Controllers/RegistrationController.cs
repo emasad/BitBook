@@ -358,11 +358,11 @@ namespace BitBookWebApp.Controllers
         public ActionResult SearchUser(string searchTerm)
         {
             
-            if (Session["email"] != null)
+             if (Session["email"] != null)
             {
                 BitBookContext db = new BitBookContext();
                 List<User> users;
-                if (string.IsNullOrEmpty(searchTerm))
+                if (string.IsNullOrWhiteSpace(searchTerm))
                 {
                     users = null;
                 }
@@ -546,6 +546,72 @@ namespace BitBookWebApp.Controllers
 
             }
         }
+
+        //Post a post
+        public ActionResult PostContent(HttpPostedFileBase file)
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+                string postImage = null;
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+
+                if (ModelState.IsValid)
+                {
+                    if (file != null)
+                    {
+
+
+                        if (file != null)
+                        {
+                            if (file.ContentLength > 0)
+                            {
+                                //Cover Photo
+
+                                postImage = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(file.FileName);
+
+                                string physicalPath = System.IO.Path.Combine(Server.MapPath("~/Images/postImages"), postImage);
+
+                                // save image in folder
+                                file.SaveAs(physicalPath);
+
+                                
+                            }
+
+                            UserPost aUserPost = new UserPost();
+
+                            aUserPost.PostText = Request.Form["PostText"];
+                            aUserPost.UserId = user.Id;
+                            aUserPost.ImageUrl = postImage;
+                            aUserPost.CurrretTime = DateTime.Now;
+                            db.UserPosts.Add(aUserPost);
+                            db.SaveChanges();
+                            return RedirectToAction("Home", "Registration");
+
+                        }
+
+                    }
+                    return RedirectToAction("Home", "Registration");
+
+                    
+                }
+                return RedirectToAction("Home", "Registration");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+
+        //
+
+
 
         //
     }

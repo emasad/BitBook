@@ -1,10 +1,11 @@
 ﻿@using BitBookWebApp.Context
+@using BitBookWebApp.Models
 @model IEnumerable<BitBookWebApp.Models.User>
 
 @{
     Layout = null;
-    
-    
+
+
 }
 
 
@@ -25,7 +26,7 @@
 
 <body>
 
-   
+
 
     <div class="wrapper">
         <div class="box">
@@ -124,104 +125,113 @@
                             <div class="row">
 
                                 <!-- main col left -->
-
                                 @if (Model != null)
                                 {
+                                    BitBookContext db = new BitBookContext();
+                                    BasicInfo userInfo = new BasicInfo();
                                     <table>
-                                        @ViewBag.Message
                                         @foreach (var item in Model)
                                         {
-                                            BitBookContext db = new BitBookContext();
 
 
-                                            var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(item.Id)).FirstOrDefault();
+                                            userInfo = db.BasicInfos.FirstOrDefault(x => x.UserId.Equals(item.Id));
 
 
-                                            <div class="col-sm-5">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
+                                            if (userInfo == null)
+                                            {
+                                                <div class="panel-body">
+                                                    <a href="~/Registration/Profile/@item.Id">
+                                                        <a href="~/Registration/Profile/@item.Id">@item.FirstName </a>
+                                                        <hr>
+                                                    </a>
+                                                </div>
 
-                                                        @{
+                                            }
+                                            else
+                                            {
 
-                                                             string userEmail = "";
-                                                             userEmail = Session["email"].ToString();
+                                                <div class="col-sm-5">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
 
-                                                              var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+                                                            @{
 
-                                                              var userFriend = db.UserFriends.Where(p => p.UserId == item.Id
-                                                                                     && p.FriendId ==user.Id ).FirstOrDefault();
-                                                            
-                                                        }
+                                                string userEmail = "";
+                                                userEmail = Session["email"].ToString();
 
-                                                        @if (userFriend == null)
-                                                        {
+                                                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
 
-                                                            <form method="post" action="@Url.Action("SendRequest", "Registration")">
+                                                var userFriend = db.UserFriends.Where(p => p.UserId == item.Id
+                                                                       && p.FriendId == user.Id).FirstOrDefault();
 
-                                                                <input type="hidden" name="friendId" value=@item.Id>
+                                                            }
 
-                                                                <button type="submit" class="btn btn-primary">Add Friend</button>
-
-                                                            </form>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            if (userFriend.Friendstatus == 1)
+                                                            @if (userFriend == null)
                                                             {
-                                                                //Request sent
-                                                                <form method="post" action="@Url.Action("AcceptRequest", "Registration")">
+
+                                                                <form method="post" action="@Url.Action("SendRequest", "Registration")">
 
                                                                     <input type="hidden" name="friendId" value=@item.Id>
 
-                                                                    <button type="submit" class="btn btn-primary">Accept Request</button>
+                                                                    <button type="submit" class="btn btn-primary">Add Friend</button>
 
                                                                 </form>
+
                                                             }
-                                                            else if (userFriend.Friendstatus == 2)
+                                                            else
                                                             {
-                                                                //your are friend and Undfriend
-                                                                <form method="post" action="@Url.Action("Unfriend", "Registration")">
+                                                                if (userFriend.Friendstatus == 1)
+                                                                {
+                                                                    //Request sent
+                                                                    <form method="post" action="@Url.Action("AcceptRequest", "Registration")">
 
-                                                                    <input type="hidden" name="friendId" value=@item.Id>
+                                                                        <input type="hidden" name="friendId" value=@item.Id>
 
-                                                                    <button type="submit" class="btn btn-primary">Undfriend</button>
+                                                                        <button type="submit" class="btn btn-primary">Accept Request</button>
 
-                                                                </form>
+                                                                    </form>
+                                                                }
+                                                                else if (userFriend.Friendstatus == 2)
+                                                                {
+                                                                    //your are friend and Undfriend
+                                                                    <form method="post" action="@Url.Action("Unfriend", "Registration")">
+
+                                                                        <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                        <button type="submit" class="btn btn-primary">Undfriend</button>
+
+                                                                    </form>
+                                                                }
+                                                                else if (userFriend.Friendstatus == 3)
+                                                                {
+                                                                    //your are friend and Undfriend
+                                                                    <form method="post" action="@Url.Action("Unfriend", "Registration")">
+
+                                                                        <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                        <button type="submit" class="btn btn-primary">Cancel Request</button>
+
+                                                                    </form>
+                                                                }
+
                                                             }
-                                                            else if (userFriend.Friendstatus == 3)
-                                                            {
-                                                                //your are friend and Undfriend
-                                                                <form method="post" action="@Url.Action("Unfriend", "Registration")">
-
-                                                                    <input type="hidden" name="friendId" value=@item.Id>
-
-                                                                    <button type="submit" class="btn btn-primary">Cancel Request</button>
-
-                                                                </form>
-                                                            }
-
-                                                        }
 
 
-
-
-
-
-
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <a href="~/Registration/Profile/@item.Id">
-                                                            <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" style="height: 40px">   <a href="~/Registration/Profile/@item.Id">@item.FirstName </a>
-                                                            <div class="clearfix">@userInfo.About</div>
-                                                            <hr>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <a href="~/Registration/Profile/@item.Id">
+                                                                <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" style="height: 40px">   <a href="~/Registration/Profile/@item.Id">@item.FirstName </a>
+                                                                <div class="clearfix">@userInfo.About</div>
+                                                                <hr>
                                                             </a>
+                                                        </div>
                                                     </div>
                                                 </div>
 
+                                            }
 
-                                            </div>
 
+                                            
                                         }
 
                                     </table>
@@ -230,24 +240,24 @@
                                 {
                                     <p>
                                         @ViewBag.Message
-                                </p>
+                                    </p>
                                 }
 
 
 
 
 
-                                
+
 
                                 <!-- main col right -->
                                 <div class="col-sm-7">
 
 
-                                    
 
-                                    
 
-                                    
+
+
+
 
                                 </div>
                             </div><!--/row-->
@@ -319,15 +329,15 @@
     <script type="text/javascript" src="~/assets/js/jquery.js"></script>
     <script type="text/javascript" src="~/assets/js/bootstrap.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-			$('[data-toggle=offcanvas]').click(function() {
-				$(this).toggleClass('visible-xs text-center');
-				$(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
-				$('.row-offcanvas').toggleClass('active');
-				$('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
-				$('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
-				$('#btnShow').toggle();
-			});
+        $(document).ready(function () {
+            $('[data-toggle=offcanvas]').click(function () {
+                $(this).toggleClass('visible-xs text-center');
+                $(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
+                $('.row-offcanvas').toggleClass('active');
+                $('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
+                $('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
+                $('#btnShow').toggle();
+            });
         });
     </script>
 </body>
