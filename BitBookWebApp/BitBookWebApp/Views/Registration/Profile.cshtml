@@ -1,4 +1,5 @@
-﻿@using BitBookWebApp.Context
+﻿@using System.Diagnostics
+@using BitBookWebApp.Context
 @using BitBookWebApp.Models
 
 @{
@@ -254,55 +255,62 @@
                                         </div>
                                     </div>
 
-
-
-                                    @if (userFriend.Friendstatus == 2)
+                                    @if (userFriend != null)
                                     {
 
-                                        var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(aUser.Id)).FirstOrDefault();
-
-                                        var userPosts = db.UserPosts.Where(p => p.UserId == aUser.Id);
-
-
-
-                                        foreach (var item in userPosts)
+                                        if (userFriend.Friendstatus == 2)
                                         {
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                     <h4>@item.CurrretTime</h4>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" class="img-circle pull-right"> <a href="~/Registration/Profile/@item.UserId">@user.FirstName @user.SurName</a>
-                                                    <div class="clearfix"></div>
-                                                    <hr>
 
-                                                    <p>
-                                                        @item.PostText
-                                                    </p>
-                                                    <div class="panel-thumbnail"><img src="~/Images/postImages/@item.ImageUrl" class="img-responsive"></div>
-                                                    <hr>
-                                                    <form>
-                                                        <div class="input-group">
-                                                            <div class="input-group-btn">
-                                                                <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
+                                            var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(aUser.Id)).FirstOrDefault();
+
+                                            var userPosts = db.UserPosts.Where(p => p.UserId == aUser.Id).ToList();
+
+
+
+                                            foreach (var item in userPosts)
+                                            {
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4>@item.CurrretTime</h4>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" class="img-circle pull-right"> <a href="~/Registration/Profile/@item.UserId">@user.FirstName @user.SurName</a>
+                                                        <div class="clearfix"></div>
+                                                        <hr>
+
+                                                        <p>
+                                                            @item.PostText
+                                                        </p>
+                                                        <div class="panel-thumbnail"><img src="~/Images/postImages/@item.ImageUrl" class="img-responsive"></div>
+                                                        <hr>
+                                                        <form>
+                                                            <div class="input-group">
+                                                                <div class="input-group-btn">
+                                                                    <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
+                                                                </div>
+                                                                <input class="form-control" placeholder="Add a comment.." type="text">
                                                             </div>
-                                                            <input class="form-control" placeholder="Add a comment.." type="text">
-                                                        </div>
-                                                    </form>
-                                                    <section class="col-md-2 ">
-                                                        <i class="fa fa-thumbs-up "></i><a href="#"> Thanks </a>| <i class="fa fa-warning "></i><a href="#"> Report </a>
-                                                    </section>
+                                                        </form>
+                                                        <section class="col-md-2 ">
+                                                            <i class="fa fa-thumbs-up "></i><a href="#"> Thanks </a>| <i class="fa fa-warning "></i><a href="#"> Report </a>
+                                                        </section>
+                                                    </div>
+
                                                 </div>
 
-                                            </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h1>Send friend Request</h1>
 
                                         }
-                                    }
-                                    else
-                                    {
-                                        <h1>Send friend Request</h1>
+
 
                                     }
+
+
+
 
 
 

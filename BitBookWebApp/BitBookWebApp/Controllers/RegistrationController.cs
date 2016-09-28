@@ -308,10 +308,13 @@ namespace BitBookWebApp.Controllers
                 //check that user id is exist
                 BitBookContext db = new BitBookContext();
 
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
 
-                var user = db.BasicInfos.Where(x => x.UserId.Equals(id)).FirstOrDefault();
+                var userInfo = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+                var user = db.BasicInfos.FirstOrDefault(x => x.UserId.Equals(id));
 
-                if (user != null)
+                if (user != null && userInfo.Id!=id)
                 {
                     //if friend
 
@@ -323,7 +326,7 @@ namespace BitBookWebApp.Controllers
 
                 else
                 {
-                    return RedirectToAction("NotExist", "Registration");
+                    return RedirectToAction("UserProfile", "Registration");
                     
                 }
 
@@ -634,6 +637,82 @@ namespace BitBookWebApp.Controllers
 
         //like a post
 
+        public ActionResult LikeUserPost(int id)
+        {
+            if (Session["email"] != null)
+            {
+
+                using (BitBookContext db = new BitBookContext())
+                {
+                    string userEmail = "";
+                    userEmail = Session["email"].ToString();
+
+                    var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+                    var likeStatus = db.LikePosts.FirstOrDefault(a => a.UserId.Equals(user.Id) && a.PostId.Equals(id));
+                    if (likeStatus == null)
+                    {
+
+
+                        LikePost aLikePost= new LikePost();
+                        aLikePost.PostId = id;
+                        aLikePost.UserId = user.Id;
+                        aLikePost.CurrretTime=DateTime.Now;
+
+                        db.LikePosts.Add(aLikePost);
+                        db.SaveChanges();
+                       
+                        return RedirectToAction("Home", "Registration");
+                    }
+
+                    else
+                    {
+                        Response.Write("<script> alert('You Already Like It')</script>");
+                    }
+                }
+                return RedirectToAction("Home", "Registration");
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+            
+        }
+        //
+        public ActionResult Comment(int id, string commentText)
+        {
+            if (Session["email"] != null)
+            {
+
+                using (BitBookContext db = new BitBookContext())
+                {
+                    string userEmail = "";
+                    userEmail = Session["email"].ToString();
+
+                    var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+                    
+
+
+                        UserComment aUserComment = new UserComment();
+                        aUserComment.PostId = id;
+                        aUserComment.UserId = user.Id;
+                        aUserComment.PostText = commentText;
+
+                        db.UserComments.Add(aUserComment);
+                        db.SaveChanges();
+
+                        return RedirectToAction("Home", "Registration");
+                    
+                }
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
 
         //
     }

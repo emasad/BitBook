@@ -303,9 +303,14 @@
     <Compile Include="Migrations\201609281632315_LikePostsCreated.Designer.cs">
       <DependentUpon>201609281632315_LikePostsCreated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609282139153_CommentEntityisCreated.cs" />
+    <Compile Include="Migrations\201609282139153_CommentEntityisCreated.Designer.cs">
+      <DependentUpon>201609282139153_CommentEntityisCreated.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BasicInfo.cs" />
     <Compile Include="Models\LikePost.cs" />
+    <Compile Include="Models\UserComment.cs" />
     <Compile Include="Models\UserFriend.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
@@ -362,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609281632315_LikePostsCreated.resx">
       <DependentUpon>201609281632315_LikePostsCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609282139153_CommentEntityisCreated.resx">
+      <DependentUpon>201609282139153_CommentEntityisCreated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
