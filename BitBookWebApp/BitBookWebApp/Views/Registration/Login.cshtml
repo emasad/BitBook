@@ -13,21 +13,24 @@
     <title>Login</title>
     <link href="~/Content/loginStyle.css" rel="stylesheet" />
     <link href="~/Content/site.css" rel="stylesheet"/>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+    <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+    <link href="~/Content/loginPageStyle.css" rel="stylesheet" />
 </head>
 <body>
 <div class="container">
-    <h1 class="welcome text-center" style="font-family: Rockwell; color: white;">Welcome to BitBook</h1>
+    <h1 class="welcome text-center" style="font-family: Rockwell; color: #a9afba;">Welcome to BitBook</h1>
     <div class="card card-container">
         @using (Html.BeginForm("Login", "Registration", FormMethod.Post))
         {
             <form class="form-signin">
+                <h2 class="form-signin-heading">Please login</h2>
                 <span id="reauth-email" class="reauth-email"></span>
                 <p class="input_title">Email</p>
-                @Html.TextBoxFor(a => a.Email, new {@class="login_box", placeholder="Your email"})
+                @Html.TextBoxFor(a => a.Email, new { @class = "form-control", placeholder = "Your email" })
                 @Html.ValidationMessageFor(a => a.Email)
                 <p class="input_title">Password</p>
-                @Html.PasswordFor(a => a.Password, new {@class="login_box", placeholder="Your password"})
+                @Html.PasswordFor(a => a.Password, new { @class = "form-control", placeholder = "Your password" })
                 @Html.ValidationMessageFor(a => a.Password)
                 <div id="remember" class="checkbox">
                 </div>
