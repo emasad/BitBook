@@ -609,7 +609,28 @@ namespace BitBookWebApp.Controllers
         }
 
 
-        //
+        //Remove Post
+        public ActionResult RemovePost(int id)
+        {
+            if (Session["email"] != null)
+            {
+
+                BitBookContext db = new BitBookContext();
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+                //1stupdate
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+                var postState = db.UserPosts.Where(p => p.Id == id && p.UserId == user.Id).FirstOrDefault();
+                db.UserPosts.Remove(postState);
+                db.SaveChanges();
+                return RedirectToAction("Home", "Registration");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
 
 
 

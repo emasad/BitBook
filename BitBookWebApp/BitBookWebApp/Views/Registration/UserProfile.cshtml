@@ -235,7 +235,13 @@
                                     {
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
-                                                <a href="#" class="pull-right">Remove Post</a> <h4>@item.CurrretTime</h4>
+                                                <form method="post" action="@Url.Action("RemovePost", "Registration")">
+
+                                                    <input type="hidden" name="id" value=@item.Id>
+
+                                                    <button type="submit" class="btn btn-primary">Remove Post</button>
+
+                                                </form> <h4>@item.CurrretTime</h4>
                                             </div>
                                             <div class="panel-body">
                                                 <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" class="img-circle pull-right"> <a href="~/Registration/Profile/@item.UserId">@user.FirstName @user.SurName</a>
