@@ -383,6 +383,58 @@ namespace BitBookWebApp.Controllers
         }
 
 
+        //Send Friend Request
+        
+        public ActionResult SendRequest(int friendId)
+        {
+
+            if (Session["email"] != null)
+            {
+
+
+
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+                //if own user
+
+                if (user.Id==friendId)
+                {
+                    return RedirectToAction("UserProfile", "Registration" );
+
+
+                }
+                else
+                {
+                    UserFriend aUserFriend = new UserFriend();
+                    aUserFriend.UserId = user.Id;
+                    aUserFriend.FriendId = Convert.ToInt32(friendId);
+                    aUserFriend.Friendstatus = 1;
+
+                    db.UserFriends.Add(aUserFriend);
+                    db.SaveChanges();
+
+                    return View();
+                    
+                }
+
+
+                
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+
         //
     }
 }

@@ -13,6 +13,7 @@ namespace BitBookWebApp.Context
 
         public DbSet<User> Users { get; set; }
         public DbSet<BasicInfo> BasicInfos { get; set; } 
+        public DbSet<UserFriend> UserFriends { get; set; } 
 
     }
 }

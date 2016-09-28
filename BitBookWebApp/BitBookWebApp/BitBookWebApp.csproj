@@ -287,7 +287,17 @@
     <Compile Include="Migrations\201609241608165_UpdateBasicInfoTable.Designer.cs">
       <DependentUpon>201609241608165_UpdateBasicInfoTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609280105138_AddFriendTable.cs" />
+    <Compile Include="Migrations\201609280105138_AddFriendTable.Designer.cs">
+      <DependentUpon>201609280105138_AddFriendTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609280107365_UdpateUserFriendModel.cs" />
+    <Compile Include="Migrations\201609280107365_UdpateUserFriendModel.Designer.cs">
+      <DependentUpon>201609280107365_UdpateUserFriendModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BasicInfo.cs" />
+    <Compile Include="Models\UserFriend.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -304,6 +314,7 @@
     <Content Include="Views\Settings\ChangePassword.cshtml" />
     <Content Include="Views\Registration\NotExist.cshtml" />
     <Content Include="Views\Registration\SearchUser.cshtml" />
+    <Content Include="Views\Registration\SendRequest.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -325,6 +336,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609241608165_UpdateBasicInfoTable.resx">
       <DependentUpon>201609241608165_UpdateBasicInfoTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280105138_AddFriendTable.resx">
+      <DependentUpon>201609280105138_AddFriendTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280107365_UdpateUserFriendModel.resx">
+      <DependentUpon>201609280107365_UdpateUserFriendModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
