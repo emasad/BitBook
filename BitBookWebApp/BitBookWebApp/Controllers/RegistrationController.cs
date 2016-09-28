@@ -363,7 +363,6 @@ namespace BitBookWebApp.Controllers
                 List<User> users;
                 if (string.IsNullOrEmpty(searchTerm))
                 {
-                    ViewBag.Message = "Fill the search box";
                     users = null;
                 }
                 else
