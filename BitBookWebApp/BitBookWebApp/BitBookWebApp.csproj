@@ -300,6 +300,7 @@
     <Compile Include="Models\UserFriend.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserPost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
