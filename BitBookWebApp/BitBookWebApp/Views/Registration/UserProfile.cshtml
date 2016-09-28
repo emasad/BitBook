@@ -132,7 +132,14 @@
 
                             <!-- content -->
                             <div class="row">
-
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><a href="#" class="pull-right">Change Cover Photo </a> <h4>Cover Photo</h4></div>
+                                    <div class="panel-body">
+                                        <p><img src="~/Images/coverPic/@aUser.CoverPicUrl" class="img-responsive"> <a href="#"></a></p>
+                                        <div class="clearfix"></div>
+                                        <hr>
+                                    </div>
+                                </div>
                                 <!-- main col left -->
                                 <div class="col-sm-5">
 
@@ -150,16 +157,7 @@
                                     </div>
 
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Bootstrap Examples</h4></div>
-                                        <div class="panel-body">
-                                            <div class="list-group">
-                                                <a href="~/Registration/Home" class="list-group-item">Modal / Dialog</a>
-                                                <a href="~/Registration/Home" class="list-group-item">Datetime Examples</a>
-                                                <a href="~/Registration/Home" class="list-group-item">Data Grids</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
 
                                     <div class="well">
                                         <form class="form-horizontal" role="form">
@@ -171,30 +169,9 @@
                                         </form>
                                     </div>
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>More Templates</h4></div>
-                                        <div class="panel-body">
-                                            <img src="~/assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">Free</a>
-                                            <div class="clearfix"></div>
-                                            There a load of new free Bootstrap 3
-                                            ready templates at BitBook. All of these templates are free and don't
-                                            require extensive customization to the Bootstrap baseline.
-                                            <hr>
-                                            <ul class="list-unstyled"><li><a href="~/Registration/Home">Dashboard</a></li><li><a href="~/Registration/Home">Darkside</a></li><li><a href="~/Registration/Home">Greenfield</a></li></ul>
-                                        </div>
-                                    </div>
+                                    
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><h4>What Is Bootstrap?</h4></div>
-                                        <div class="panel-body">
-                                            Bootstrap is front end frameworkto
-                                            build custom web applications that are fast, responsive &amp; intuitive.
-                                            It consist of CSS and HTML for typography, forms, buttons, tables,
-                                            grids, and navigation along with custom-built jQuery plug-ins and
-                                            support for responsive layouts. With dozens of reusable components for
-                                            navigation, pagination, labels, alerts etc..
-                                        </div>
-                                    </div>
+                                    
 
 
 
@@ -205,11 +182,17 @@
 
 
                                     <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">Change Cover Photo </a> <h4>Cover Photo</h4></div>
+                                        <div class="panel-heading"><a href="#" class="pull-right">Edit Basic Information</a> <h4>Basic Information</h4></div>
                                         <div class="panel-body">
-                                            <p><img src="~/Images/coverPic/@aUser.CoverPicUrl" class="img-responsive"> <a href="#"></a></p>
-                                            <div class="clearfix"></div>
-                                            <hr>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">About<p class="list-group-item">@aUser.About</p></li>
+                                                <li class="list-group-item">Area Of Interest<p class="list-group-item">@aUser.AreaOfInterest</p></li>
+                                                <li class="list-group-item">Location<p class="list-group-item">@aUser.Location</p></li>
+                                                <li class="list-group-item">Education<p class="list-group-item">@aUser.Education</p></li>
+                                                <li class="list-group-item">Experience<p class="list-group-item">@aUser.Experience</p></li>
+
+
+                                            </ul>
                                         </div>
                                     </div>
 
@@ -235,20 +218,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">Edit Basic Information</a> <h4>Basic Information</h4></div>
-                                        <div class="panel-body">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">About<p class="list-group-item">@aUser.About</p></li>
-                                                <li class="list-group-item">Area Of Interest<p class="list-group-item">@aUser.AreaOfInterest</p></li>
-                                                <li class="list-group-item">Location<p class="list-group-item">@aUser.Location</p></li>
-                                                <li class="list-group-item">Education<p class="list-group-item">@aUser.Education</p></li>
-                                                <li class="list-group-item">Experience<p class="list-group-item">@aUser.Experience</p></li>
-
-
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    
 
                                     <div class="panel panel-default">
                                         <div class="panel-thumbnail"><img src="~/assets/img/bg_4.jpg" class="img-responsive"></div>
