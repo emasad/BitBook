@@ -398,10 +398,11 @@ namespace BitBookWebApp.Controllers
                 userEmail = Session["email"].ToString();
 
                 var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
-
+                var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
+                                              && p.FriendId == friendId).FirstOrDefault();
                 //if own user
 
-                if (user.Id==friendId)
+                if (user.Id==friendId || userFriend!=null)
                 {
                     return RedirectToAction("UserProfile", "Registration" );
 
@@ -452,26 +453,37 @@ namespace BitBookWebApp.Controllers
                 var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
                                               && p.FriendId == friendId).FirstOrDefault();
 
+                if (userFriend==null)
+                {
 
-                userFriend.Friendstatus = 2;
-                db.UserFriends.Attach(userFriend);
-                db.Entry(userFriend).Property(x => x.Friendstatus).IsModified = true;
-                db.Configuration.ValidateOnSaveEnabled = false;
+                    return RedirectToAction("Home", "Registration");
 
-                db.SaveChanges();
-                //second update
+                }
+                else
+                {
 
-                var userFriend2 = db.UserFriends.Where(p => p.UserId == friendId
-                                              && p.FriendId == user.Id).FirstOrDefault();
+                    userFriend.Friendstatus = 2;
+                    db.UserFriends.Attach(userFriend);
+                    db.Entry(userFriend).Property(x => x.Friendstatus).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
+
+                    db.SaveChanges();
+                    //second update
+
+                    var userFriend2 = db.UserFriends.Where(p => p.UserId == friendId
+                                                  && p.FriendId == user.Id).FirstOrDefault();
 
 
-                userFriend2.Friendstatus = 2;
-                db.UserFriends.Attach(userFriend2);
-                db.Entry(userFriend2).Property(x => x.Friendstatus).IsModified = true;
-                db.Configuration.ValidateOnSaveEnabled = false;
+                    userFriend2.Friendstatus = 2;
+                    db.UserFriends.Attach(userFriend2);
+                    db.Entry(userFriend2).Property(x => x.Friendstatus).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
 
-                db.SaveChanges();
-                return View();
+                    db.SaveChanges();
+                    return View();
+                }
+
+
 
             }
             else
@@ -497,26 +509,35 @@ namespace BitBookWebApp.Controllers
                                               && p.FriendId == friendId).FirstOrDefault();
 
 
-                //userFriend.Friendstatus = 2;
-                //db.UserFriends.Attach(userFriend);
-                //db.Entry(userFriend).Property(x => x.Friendstatus).IsModified = true;
-                //db.Configuration.ValidateOnSaveEnabled = false;
-                db.UserFriends.Remove(userFriend);
-                db.SaveChanges();
-                //second update
+                if (userFriend==null)
+                {
+                    return RedirectToAction("Home", "Registration");
 
-                var userFriend2 = db.UserFriends.Where(p => p.UserId == friendId
-                                              && p.FriendId == user.Id).FirstOrDefault();
+                }
+                else
+                {
+                    //userFriend.Friendstatus = 2;
+                    //db.UserFriends.Attach(userFriend);
+                    //db.Entry(userFriend).Property(x => x.Friendstatus).IsModified = true;
+                    //db.Configuration.ValidateOnSaveEnabled = false;
+                    db.UserFriends.Remove(userFriend);
+                    db.SaveChanges();
+                    //second update
+
+                    var userFriend2 = db.UserFriends.Where(p => p.UserId == friendId
+                                                  && p.FriendId == user.Id).FirstOrDefault();
 
 
-                //userFriend2.Friendstatus = 2;
-                //db.UserFriends.Attach(userFriend2);
-                //db.Entry(userFriend2).Property(x => x.Friendstatus).IsModified = true;
-                //db.Configuration.ValidateOnSaveEnabled = false;
-                db.UserFriends.Remove(userFriend2);
-                db.SaveChanges();
-                db.SaveChanges();
-                return View();
+                    //userFriend2.Friendstatus = 2;
+                    //db.UserFriends.Attach(userFriend2);
+                    //db.Entry(userFriend2).Property(x => x.Friendstatus).IsModified = true;
+                    //db.Configuration.ValidateOnSaveEnabled = false;
+                    db.UserFriends.Remove(userFriend2);
+                    db.SaveChanges();
+                    db.SaveChanges();
+                    return View();
+                }
+                
 
             }
             else

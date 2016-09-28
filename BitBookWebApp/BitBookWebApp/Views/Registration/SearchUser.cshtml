@@ -3,6 +3,8 @@
 
 @{
     Layout = null;
+    
+    
 }
 
 
@@ -138,7 +140,75 @@
                                             <div class="col-sm-5">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
-                                                        <button type="button" class="btn btn-primary">Add Friend</button>
+
+                                                        @{
+
+                                                             string userEmail = "";
+                                                             userEmail = Session["email"].ToString();
+
+                                                              var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+                                                              var userFriend = db.UserFriends.Where(p => p.UserId == item.Id
+                                                                                     && p.FriendId ==user.Id ).FirstOrDefault();
+                                                            
+                                                        }
+
+                                                        @if (userFriend == null)
+                                                        {
+
+                                                            <form method="post" action="@Url.Action("SendRequest", "Registration")">
+
+                                                                <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                <button type="submit" class="btn btn-primary">Add Friend</button>
+
+                                                            </form>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            if (userFriend.Friendstatus == 1)
+                                                            {
+                                                                //Request sent
+                                                                <form method="post" action="@Url.Action("AcceptRequest", "Registration")">
+
+                                                                    <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                    <button type="submit" class="btn btn-primary">Accept Request</button>
+
+                                                                </form>
+                                                            }
+                                                            else if (userFriend.Friendstatus == 2)
+                                                            {
+                                                                //your are friend and Undfriend
+                                                                <form method="post" action="@Url.Action("Unfriend", "Registration")">
+
+                                                                    <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                    <button type="submit" class="btn btn-primary">Undfriend</button>
+
+                                                                </form>
+                                                            }
+                                                            else if (userFriend.Friendstatus == 3)
+                                                            {
+                                                                //your are friend and Undfriend
+                                                                <form method="post" action="@Url.Action("Unfriend", "Registration")">
+
+                                                                    <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                    <button type="submit" class="btn btn-primary">Cancel Request</button>
+
+                                                                </form>
+                                                            }
+
+                                                        }
+
+
+
+
+
+
+
                                                     </div>
                                                     <div class="panel-body">
                                                         <a href="~/Registration/Profile/@item.Id">
