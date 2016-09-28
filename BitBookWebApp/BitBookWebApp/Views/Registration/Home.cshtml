@@ -101,7 +101,7 @@
 
                                 </li>
                                 <li>
-                                    <a href="~/Registration/UserProfile"><span class="badge">Welcome </span></a>
+                                    <a href="~/Registration/UserProfile"><span class="badge">Welcome @Session["email"].ToString()</span></a>
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
@@ -110,7 +110,7 @@
                                     <ul class="dropdown-menu">
                                         <li>@Html.ActionLink("User Info", "BasicInformation")</li>
                                         <li>@Html.ActionLink("Logout", "Logout", "Registration")</li>
-                                        <li><a href="">More</a></li>
+                                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Settings")</li>
                                         <li><a href="">More</a></li>
                                         <li><a href="">Log Out</a></li>
                                     </ul>

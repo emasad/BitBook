@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -13,40 +14,55 @@ namespace BitBookWebApp.Controllers
     public class SettingsController : Controller
     {
         // GET: Settings
-        public ActionResult ChangePassword(string id)
+        public ActionResult ChangePassword()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
 
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(ChangePass changePass)
         {
-            if (ModelState.IsValid)
+            if (Session["Email"] != null)
             {
-                using (BitBookContext aBitBookContext = new BitBookContext())
+                if (ModelState.IsValid)
                 {
-                    var log = aBitBookContext.Users.FirstOrDefault(a => a.Password.Equals(changePass.NewPassword));
-                    if (log != null)
+                    using (BitBookContext aBitBookContext = new BitBookContext())
                     {
-                        Response.Write("<script> alert('You entered same password')</script>");
-                    }
-                    else
-                    {
-                        var pass = changePass.NewPassword;
+                        var log = aBitBookContext.Users.FirstOrDefault(a => a.Password.Equals(changePass.NewPassword));
+                        if (log != null)
+                        {
+                            Response.Write("<script> alert('You entered same password')</script>");
+                        }
+                        else
+                        {
+                            string userEmail = null;
+                            userEmail = Session["Email"].ToString();
+                            var usr = aBitBookContext.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
 
-                        Response.Write("<script> alert('Password changed')</script>");
-                    }
+                            usr.Password = changePass.NewPassword;
+                            aBitBookContext.Users.Attach(usr);
+                            aBitBookContext.Entry(usr).Property(x => x.Password).IsModified = true;
+                            aBitBookContext.Configuration.ValidateOnSaveEnabled = false;
+                            
+                            aBitBookContext.SaveChanges();
 
+                            Response.Write("<script> alert('Password changed')</script>");
+                        }
+
+                    }
                 }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
             }
 
             return View();
         }
     }
-}
+    }
