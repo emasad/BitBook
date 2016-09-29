@@ -27,4 +27,18 @@ namespace BitBookWebApp.Models
         [NotMapped]
         public string ConfirmPassword { get; set; }
     }
+
+    public class ChangeCoverPhoto : Settings
+    {
+        public int Id { get; set; }
+        [Required(ErrorMessage = "Please upload your image")]
+        public string NewImage { get; set; }
+    }
+
+    public class ChangeProfilePhoto : Settings
+    {
+        public int Id { get; set; }
+        [Required(ErrorMessage = "Please upload your image")]
+        public string NewProfileImage { get; set; }
+    }
 }

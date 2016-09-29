@@ -1,0 +1,45 @@
+﻿@model BitBookWebApp.Models.ChangeCoverPhoto
+
+@{
+    Layout = null;
+}
+
+@{
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ChangeCover</title>
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("ChangeCover", "Settings", FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+        {
+            <div style="padding: 2.5cm 7cm;">
+                <form>
+                    <div class="row">
+                        <div class="col-md-1">
+                            @Html.TextBoxFor(a => a.NewImage)
+                            @Html.ValidationMessageFor(a => a.NewImage)
+
+                            <input type="file" name="file" id="file" /> <br />
+                        </div>
+
+                    </div>
+                    <div>
+                        <input type="submit" value="Change" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+
+        }
+    </div>
+</body>
+</html>

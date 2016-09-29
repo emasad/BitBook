@@ -112,6 +112,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\loginPageStyle.css" />
     <Content Include="Content\loginStyle.css" />
     <Content Include="Content\regstyle.css" />
     <Content Include="Content\site.css" />
@@ -335,6 +336,8 @@
     <Content Include="Views\Registration\NumberFriend.cshtml" />
     <Content Include="Views\Registration\RequestF.cshtml" />
     <Content Include="Views\Registration\WhoLike.cshtml" />
+    <Content Include="Views\Settings\ChangeCover.cshtml" />
+    <Content Include="Views\Settings\ChangeProfilePhoto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

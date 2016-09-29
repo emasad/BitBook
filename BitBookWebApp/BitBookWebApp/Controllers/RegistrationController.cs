@@ -40,11 +40,11 @@ namespace BitBookWebApp.Controllers
 
                     if (isSaved)
                     {
-                        ViewBag.StatusMessage = "Save is successed.";
+                        ViewBag.StatusMessage = "Successfull Registration.";
                     }
                     else
                     {
-                        ViewBag.StatusMessage = "Saved Fail";
+                        ViewBag.StatusMessage = "Registration Fail";
                     }
                 }
 
