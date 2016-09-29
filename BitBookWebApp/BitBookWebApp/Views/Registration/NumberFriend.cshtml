@@ -1,0 +1,49 @@
+﻿@using BitBookWebApp.Context
+@using BitBookWebApp.Models
+
+@{
+    Layout = null;
+    BitBookContext db = new BitBookContext();
+
+    var aUserFriend = (List<UserFriend>)ViewBag.User;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>NumberFriend</title>
+</head>
+<body>
+<div>
+    <a href="~/Registration/Home">Back to the Home</a>
+
+    @{
+
+        foreach (var item in aUserFriend)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Id.Equals(item.FriendId));
+            var userInof = db.BasicInfos.FirstOrDefault(x => x.UserId.Equals(item.FriendId));
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <img src="~/Images/profilePic/@userInof.ProfilePicUrl" style="height: 20px"> <a href="~/Registration/Profile/@user.Id">@user.FirstName @user.SurName</a>
+
+                    <div class="clearfix"></div>
+                    About: @userInof.About
+                    <hr>
+                </div>
+            </div>
+
+
+        }
+
+
+
+    }
+
+</div>
+</body>
+</html>

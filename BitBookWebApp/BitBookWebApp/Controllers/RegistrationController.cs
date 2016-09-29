@@ -714,6 +714,35 @@ namespace BitBookWebApp.Controllers
             }
         }
 
+        //number of friend request
+
+
+        //number of friend
+        public ActionResult NumberFriend()
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+
+                var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+
+                var userFriend = db.UserFriends.Where(p => p.UserId == user.Id && p.Friendstatus == 2).ToList();
+                ViewBag.Number = userFriend.Count();
+                ViewBag.User = userFriend.ToList();
+                return View();
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
         //
     }
 }
