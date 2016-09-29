@@ -227,13 +227,31 @@
                                         
                                         var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(user.Id)).FirstOrDefault();
 
-                                        var userPosts = db.UserPosts.Where(p => p.UserId == user.Id);
+                                        var userPosts = db.UserPosts.Where(p => p.UserId == user.Id).ToList();
                                         
                                     }
 
 
                                     @foreach (var item in userPosts)
                                     {
+
+                                        string color = "btn-primary";
+                                        var likeStatus = db.LikePosts.FirstOrDefault(a => a.UserId.Equals(user.Id) && a.PostId.Equals(item.Id));
+                                        if (likeStatus == null)
+                                        {
+
+                                            color = "btn-primary";
+
+                                        }
+
+                                        else
+                                        {
+                                            color = "btn-danger";
+                                        }
+
+                                        var posts = db.LikePosts.Where(x => x.PostId.Equals(item.Id)).ToList();
+                                        int i = posts.Count();
+                                        
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
                                                 <form method="post" action="@Url.Action("RemovePost", "Registration")">
@@ -242,7 +260,7 @@
 
                                                     <button type="submit" class="btn btn-primary">Remove Post</button>
 
-                                                </form> <h4>@item.CurrretTime</h4>;
+                                                </form> <h4>@item.CurrretTime</h4>
                                             </div>
                                             <div class="panel-body">
                                                 <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" class="img-circle pull-right"> <a href="~/Registration/Profile/@item.UserId">@user.FirstName @user.SurName</a>
@@ -252,7 +270,22 @@
                                                 <p>
                                                     @item.PostText
                                                 </p>
-                                                <div class="panel-thumbnail"><img src="~/Images/postImages/@item.ImageUrl" class="img-responsive"></div>
+                                                <div class="panel-thumbnail"><img src="~/Images/postImages/@item.ImageUrl" class="img-responsive">
+                                                </div>
+                                                <form method="post" action="@Url.Action("LikeUserPost", "Registration")">
+
+                                                    <input type="hidden" name="id" value=@item.Id>
+
+                                                    <button type="submit" class="btn @color">+@i</button>
+                                                </form>
+                                                <div class="input-group-btn">
+                                                    <form method="post" action="@Url.Action("WhoLike", "Registration")">
+
+                                                        <input type="hidden" name="id" value=@item.Id>
+
+                                                        <button type="submit" class="btn btn-primary">View list</button>
+                                                    </form>
+                                                </div>
                                                 <hr>
 
                                                 <form method="post" action="@Url.Action("Comment", "Registration")">
@@ -291,6 +324,15 @@
                                         }
 
                                                 }
+
+
+
+
+
+
+
+
+
 
 
 

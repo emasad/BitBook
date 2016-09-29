@@ -773,6 +773,38 @@ namespace BitBookWebApp.Controllers
         }
 
 
+        //User list Who like the post
+        public ActionResult WhoLike(int id)
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                var userList = db.LikePosts.Where(x => x.PostId == id).ToList();
+
+                ViewBag.Number = userList.Count();
+                ViewBag.User = userList.ToList();
+                return View();
+
+                //string userEmail = "";
+                //userEmail = Session["email"].ToString();
+
+                //var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+                //var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
+                //                                         && p.FriendId == aUser.Id).FirstOrDefault();
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+            
+        }
+
+
         //
     }
 }

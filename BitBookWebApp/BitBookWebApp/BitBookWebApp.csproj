@@ -334,6 +334,7 @@
     <Content Include="Views\Registration\Unfriend.cshtml" />
     <Content Include="Views\Registration\NumberFriend.cshtml" />
     <Content Include="Views\Registration\RequestF.cshtml" />
+    <Content Include="Views\Registration\WhoLike.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

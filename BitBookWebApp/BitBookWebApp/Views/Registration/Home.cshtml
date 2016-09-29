@@ -242,7 +242,12 @@
                                                             </form>
                                                         </div>
                                                         <div class="input-group-btn">
-                                                            <button class="btn btn-default">See List</button>
+                                                            <form method="post" action="@Url.Action("WhoLike", "Registration")">
+
+                                                                <input type="hidden" name="id" value=@item.Id>
+
+                                                                <button type="submit" class="btn btn-primary">View list</button>
+                                                            </form>
                                                         </div>
                                                         <hr>
                                                         
