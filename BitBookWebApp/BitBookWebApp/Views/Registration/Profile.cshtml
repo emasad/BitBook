@@ -14,8 +14,8 @@
 
     var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
 
-     var userFriend = db.UserFriends.Where(p => p.UserId == aUser.Id
-                                              && p.FriendId == user.Id).FirstOrDefault();
+     var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
+                                              && p.FriendId == aUser.UserId).FirstOrDefault();
          
          //db.UserFriends.Where(x => x.User==user.Id);
     
@@ -64,8 +64,8 @@
 
                     <ul class="nav hidden-xs" id="lg-menu">
                         <li class="active"><a href="#featured"><i class="glyphicon glyphicon-list-alt"></i> Featured</a></li>
-                        <li><a href="#stories"><i class="glyphicon glyphicon-list"></i> Friend Request</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-paperclip"></i> Friend List</a></li>
+                        <li><a href="~/Registration/RequestF"><i class="glyphicon glyphicon-list"></i> Friend Request</a></li>
+                        <li><a href="~/Registration/NumberFriend"><i class="glyphicon glyphicon-paperclip"></i> Friend List</a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-refresh"></i> Refresh</a></li>
                     </ul>
                     <ul class="list-unstyled hidden-xs" id="sidebar-footer">
@@ -185,11 +185,11 @@
                                                 if(userFriend.Friendstatus == 1)
                                                 {
                                                     //Request sent
-                                                    <form method="post" action="@Url.Action("AcceptRequest", "Registration")">
+                                                    <form method="post" action="@Url.Action("Unfriend", "Registration")">
 
                                                         <input type="hidden" name="friendId" value=@aUser.Id>
 
-                                                        <button type="submit" class="btn btn-primary">Accept Request</button>
+                                                        <button type="submit" class="btn btn-primary">Cancel Request</button>
 
                                                     </form>
                                                 }
@@ -207,11 +207,11 @@
                                                 else if (userFriend.Friendstatus == 3)
                                                 {
                                                     //your are friend and Undfriend
-                                                    <form method="post" action="@Url.Action("Unfriend", "Registration")">
+                                                    <form method="post" action="@Url.Action("AcceptRequest", "Registration")">
 
                                                         <input type="hidden" name="friendId" value=@aUser.Id>
 
-                                                        <button type="submit" class="btn btn-primary">Cancel Request</button>
+                                                        <button type="submit" class="btn btn-primary">Accept Requesst</button>
 
                                                     </form>
                                                 }

@@ -60,8 +60,8 @@
 
                     <ul class="nav hidden-xs" id="lg-menu">
                         <li class="active"><a href="#featured"><i class="glyphicon glyphicon-list-alt"></i> Featured</a></li>
-                        <li><a href="#stories"><i class="glyphicon glyphicon-list"></i> Friend Request</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-paperclip"></i> Friend List</a></li>
+                        <li><a href="~/Registration/RequestF"><i class="glyphicon glyphicon-list"></i> Friend Request</a></li>
+                        <li><a href="~/Registration/NumberFriend"><i class="glyphicon glyphicon-paperclip"></i> Friend List</a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-refresh"></i> Refresh</a></li>
                     </ul>
                     <ul class="list-unstyled hidden-xs" id="sidebar-footer">
@@ -254,17 +254,50 @@
                                                 </p>
                                                 <div class="panel-thumbnail"><img src="~/Images/postImages/@item.ImageUrl" class="img-responsive"></div>
                                                 <hr>
-                                                <form>
-                                                    <div class="input-group">
-                                                        <div class="input-group-btn">
-                                                            <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
-                                                        </div>
-                                                        <input class="form-control" placeholder="Add a comment.." type="text">
-                                                    </div>
+
+                                                <form method="post" action="@Url.Action("Comment", "Registration")">
+                                                    <input type="hidden" name="id" value=@item.Id>
+                                                    <input class="form-control" placeholder="Add a comment.." type="text" name="commentText" value=commentText>
+                                                    <button type="submit" class="btn btn-info">Add Comment</button>
                                                 </form>
-                                                <section class="col-md-2 ">
-                                                    <i class="fa fa-thumbs-up "></i><a href="#"> Thanks </a>| <i class="fa fa-warning "></i><a href="#"> Report </a>
-                                                </section>
+
+
+                                                @{
+                                        //show comment
+                                        var post = db.UserComments.Where(x => x.PostId == item.Id).ToList();
+
+                                        if (post != null)
+                                        {
+
+                                            foreach (var idn in post)
+                                            {
+                                                var commentor = db.Users.FirstOrDefault(x => x.Id == idn.UserId);
+                                                var commentorInfo = db.BasicInfos.FirstOrDefault(x => x.Id == idn.UserId);
+                                                if (commentorInfo == null)
+                                                {
+                                                    throw new ArgumentNullException("commentorInfo");
+                                                }
+
+
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <img src="~/Images/profilePic/@commentorInfo.ProfilePicUrl" class="img-circle pull-left"> <a href="~/Registration/Profile/@commentor.Id">@commentor.FirstName @commentor.SurName</a>
+                                                        <div class="clearfix"></div>
+                                                        @idn.PostText
+                                                        <hr>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+
+                                                }
+
+
+
+
+
+
+
                                             </div>
 
                                         </div>

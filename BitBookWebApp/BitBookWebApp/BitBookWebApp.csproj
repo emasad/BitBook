@@ -333,6 +333,7 @@
     <Content Include="Views\Registration\AcceptRequest.cshtml" />
     <Content Include="Views\Registration\Unfriend.cshtml" />
     <Content Include="Views\Registration\NumberFriend.cshtml" />
+    <Content Include="Views\Registration\RequestF.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
