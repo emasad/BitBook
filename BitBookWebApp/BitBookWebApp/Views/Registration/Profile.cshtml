@@ -16,7 +16,8 @@
 
      var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
                                               && p.FriendId == aUser.UserId).FirstOrDefault();
-         
+
+    var whosProfile = db.Users.FirstOrDefault(x => x.Id == aUser.UserId);
          //db.UserFriends.Where(x => x.User==user.Id);
     
     
@@ -162,7 +163,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-thumbnail"><img src="~/Images/profilePic/@aUser.ProfilePicUrl" class="img-responsive" alt="Profile of @aUser.Id"></div>
                                         <div class="panel-body">
-                                            <p class="lead">Profile Photo</p>
+                                            <p class="lead">@whosProfile.FirstName @whosProfile.SurName</p>
                                             <p>45 Followers, 13 Posts</p>
 
 

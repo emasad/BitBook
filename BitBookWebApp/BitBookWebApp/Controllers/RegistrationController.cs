@@ -42,11 +42,11 @@ namespace BitBookWebApp.Controllers
 
                     if (isSaved)
                     {
-                        ViewBag.StatusMessage = "Successfull Registration.";
+                        return RedirectToAction("BasicInformation", "Registration");
                     }
                     else
                     {
-                        ViewBag.StatusMessage = "Registration Fail";
+                        ViewBag.StatusMessage = "Registration Fail, Please Try Again";
                     }
                 }
 
@@ -580,10 +580,6 @@ namespace BitBookWebApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (file != null)
-                    {
-
-
                         if (file != null)
                         {
                             if (file.ContentLength > 0)
@@ -599,20 +595,24 @@ namespace BitBookWebApp.Controllers
 
                                 
                             }
+                        }
 
                             UserPost aUserPost = new UserPost();
 
                             aUserPost.PostText = Request.Form["PostText"];
                             aUserPost.UserId = user.Id;
-                            aUserPost.ImageUrl = postImage;
+                    if (file != null)
+                    {
+                        aUserPost.ImageUrl = postImage;
+                        
+                    }
                             aUserPost.CurrretTime = DateTime.Now;
                             db.UserPosts.Add(aUserPost);
                             db.SaveChanges();
                             return RedirectToAction("Home", "Registration");
 
-                        }
 
-                    }
+                    
                     return RedirectToAction("Home", "Registration");
 
                     
@@ -681,7 +681,7 @@ namespace BitBookWebApp.Controllers
 
                     else
                     {
-                        Response.Write("<script> alert('You Already Like It')</script>");
+                        Response.Write("<script> alert('You already like ')</script>");                        
                     }
                 }
                 return RedirectToAction("Home", "Registration");
