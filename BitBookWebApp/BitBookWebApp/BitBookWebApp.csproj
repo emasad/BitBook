@@ -312,9 +312,9 @@
     <Compile Include="Models\BasicInfo.cs" />
     <Compile Include="Models\LikePost.cs" />
     <Compile Include="Models\UserComment.cs" />
-    <Compile Include="Models\UserFriend.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserFriend.cs" />
     <Compile Include="Models\UserPost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
