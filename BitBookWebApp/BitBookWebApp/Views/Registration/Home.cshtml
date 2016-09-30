@@ -213,7 +213,7 @@
 
                                                 var posts = db.LikePosts.Where(x=>x.PostId.Equals(item.Id)).ToList();
                                                 int i = posts.Count();
-                                                
+                                                var posterId = db.Users.FirstOrDefault(a => a.Id == item.UserId);
                                                 
                                                 
                                                 
@@ -222,7 +222,7 @@
                                                         <h4>@item.CurrretTime</h4>
                                                     </div>
                                                     <div class="panel-body">
-                                                        <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" class="img-circle pull-right"> <a href="~/Registration/Profile/@item.UserId">@user.FirstName @user.SurName</a>
+                                                        <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" class="img-circle pull-right"> <a href="~/Registration/Profile/@item.UserId">@posterId.FirstName @posterId.SurName</a>
                                                         <div class="clearfix"></div>
                                                         <hr>
 

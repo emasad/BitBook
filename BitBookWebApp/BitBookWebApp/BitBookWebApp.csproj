@@ -308,6 +308,10 @@
     <Compile Include="Migrations\201609282139153_CommentEntityisCreated.Designer.cs">
       <DependentUpon>201609282139153_CommentEntityisCreated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609301103527_UserFrindClassUpdate.cs" />
+    <Compile Include="Migrations\201609301103527_UserFrindClassUpdate.Designer.cs">
+      <DependentUpon>201609301103527_UserFrindClassUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BasicInfo.cs" />
     <Compile Include="Models\LikePost.cs" />
@@ -376,6 +380,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609282139153_CommentEntityisCreated.resx">
       <DependentUpon>201609282139153_CommentEntityisCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609301103527_UserFrindClassUpdate.resx">
+      <DependentUpon>201609301103527_UserFrindClassUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
