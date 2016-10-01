@@ -342,6 +342,7 @@
     <Content Include="Views\Registration\WhoLike.cshtml" />
     <Content Include="Views\Settings\ChangeCover.cshtml" />
     <Content Include="Views\Settings\ChangeProfilePhoto.cshtml" />
+    <Content Include="Views\Registration\EditBasicInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

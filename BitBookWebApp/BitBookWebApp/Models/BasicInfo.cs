@@ -31,4 +31,19 @@ namespace BitBookWebApp.Models
 
 
     }
+
+
+    public class BasicInfoViewModel
+    {
+        public string About { get; set; }
+
+        public string AreaOfInterest { get; set; }
+
+        public string Location { get; set; }
+
+        public string Education { get; set; }
+
+        public string Experience { get; set; }
+
+    }
 }

@@ -94,11 +94,16 @@ namespace BitBookWebApp.Controllers
             {
                 using (BitBookContext aBitBookContext = new BitBookContext())
                 {
-                    var log = aBitBookContext.Users.Where(a => a.Email.Equals(lg.Email) && a.Password.Equals(lg.Password)).FirstOrDefault();
+                    var log = aBitBookContext.Users.FirstOrDefault(a => a.Email.Equals(lg.Email) && a.Password.Equals(lg.Password));
+                    //var userInfoId = aBitBookContext.BasicInfos.FirstOrDefault(a => a.UserId == log.Id);
                     if (log != null)
                     {
                         Session["email"] = log.Email;
-                        return RedirectToAction("Home", "Registration");
+
+                        
+                        return RedirectToAction("BasicInformation", "Registration");
+                            
+                        
                     }
 
                     else
@@ -819,6 +824,38 @@ namespace BitBookWebApp.Controllers
             
         }
 
+
+        //Edit basic info
+        [HttpGet]
+        public ActionResult EditBasicInfo()
+        {
+            return View();
+        }
+        //Post method edit basic info
+        [HttpPost]
+        public ActionResult EditBasicInfo(BasicInfoViewModel aBasicInfoViewModel)
+        {
+
+            BitBookContext db=new BitBookContext();
+            string userEmail = "";
+                userEmail = Session["email"].ToString();
+
+                var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+            //save new record in database
+            BasicInfo aBasicInfo = new BasicInfo();
+            aBasicInfo = db.BasicInfos.SingleOrDefault(x => x.UserId == user.Id);
+            aBasicInfo.About = aBasicInfoViewModel.About;
+            aBasicInfo.AreaOfInterest = aBasicInfoViewModel.AreaOfInterest;
+            aBasicInfo.Location = aBasicInfoViewModel.Location;
+            aBasicInfo.Education = aBasicInfoViewModel.Education;
+            aBasicInfo.Experience = aBasicInfoViewModel.Experience;
+            //Save in db
+            db.BasicInfos.AddOrUpdate(aBasicInfo);
+            db.SaveChanges();
+
+            return RedirectToAction("UserProfile", "Registration");
+
+        }
 
         //
     }

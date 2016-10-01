@@ -20,28 +20,30 @@
 
             <div>
 
-                Cover Photo<br />
-                <input type="file" name="files" id="file" style="width: 100%;" /> <br />
-                Profile Photo<br />
-                <input type="file" name="files" id="coverFile" style="width: 100%;" /> <br />
+                Cover Photo<br/>
+                <input type="file" name="files" id="file" style="width: 100%;"/> <br/>
+                Profile Photo<br/>
+                <input type="file" name="files" id="coverFile" style="width: 100%;"/> <br/>
 
-                <br />
-                About<br />
-                @Html.TextBox("About") <br />
-                Area Of Interest<br />
-                @Html.TextBox("AreaOfInterest") <br />
-                Location<br />
-                @Html.TextBox("Location") <br />
-                Education<br />
-                @Html.TextBox("Education") <br />
-                Experience<br />
-                @Html.TextBox("Experience") <br />
+                <br/>
+                About<br/>
+                @Html.TextBox("About") <br/>
+                Area Of Interest<br/>
+                @Html.TextBox("AreaOfInterest") <br/>
+                Location<br/>
+                @Html.TextBox("Location") <br/>
+                Education<br/>
+                @Html.TextBox("Education") <br/>
+                Experience<br/>
+                @Html.TextBox("Experience") <br/>
 
-                <br />
+                <br/>
 
-                <input type="submit" value="Upload" class="submit" />
+                <input type="submit" value="Upload" class="submit"/>
 
             </div>
+    <li>@Html.ActionLink("Logout", "Logout", "Registration")</li>
+ 
         }
     }
     else
