@@ -1,2 +1,2 @@
 language: csharp
-solution: BitBookWebApp.sln
+solution: BitBookWebApp/BitBookWebApp.sln
