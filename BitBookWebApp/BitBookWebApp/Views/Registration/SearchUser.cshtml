@@ -1,8 +1,16 @@
 ﻿@using BitBookWebApp.Context
+@using BitBookWebApp.Models
 @model IEnumerable<BitBookWebApp.Models.User>
 
 @{
     Layout = null;
+
+    BitBookContext db = new BitBookContext();
+
+    string userEmail = "";
+    userEmail = Session["email"].ToString();
+
+    var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
 }
 
 
@@ -23,7 +31,7 @@
 
 <body>
 
-   
+
 
     <div class="wrapper">
         <div class="box">
@@ -38,8 +46,8 @@
 
                     <ul class="nav hidden-xs" id="lg-menu">
                         <li class="active"><a href="#featured"><i class="glyphicon glyphicon-list-alt"></i> Featured</a></li>
-                        <li><a href="#stories"><i class="glyphicon glyphicon-list"></i> Stories</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-paperclip"></i> Saved</a></li>
+                        <li><a href="~/Registration/RequestF"><i class="glyphicon glyphicon-list"></i> Friend Request</a></li>
+                        <li><a href="~/Registration/NumberFriend"><i class="glyphicon glyphicon-paperclip"></i> Friend List</a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-refresh"></i> Refresh</a></li>
                     </ul>
                     <ul class="list-unstyled hidden-xs" id="sidebar-footer">
@@ -74,13 +82,15 @@
                         </div>
                         <nav class="collapse navbar-collapse" role="navigation">
                             <form class="navbar-form navbar-left" method="post" action="@Url.Action("SearchUser", "Registration")">
-                                <div class="input-group input-group-sm" style="max-width:360px;">
+                                <div class="input-group input-group-sm" style="max-width: 360px;">
                                     <input class="form-control" placeholder="Search" name="searchTerm" id="srch-term" type="text">
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                     </div>
                                 </div>
                             </form>
+
+
                             <ul class="nav navbar-nav">
                                 <li>
                                     <a href="~/Registration/Home"><i class="glyphicon glyphicon-home"></i> Home</a>
@@ -96,18 +106,17 @@
 
                                 </li>
                                 <li>
-                                    <a href="~/Registration/UserProfile"><span class="badge">Welcome </span></a>
+                                    <a href="~/Registration/UserProfile"><span class="badge">@user.FirstName @user.SurName</span></a>
+
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i></a>
                                     <ul class="dropdown-menu">
-                                        <li>@Html.ActionLink("User Info", "BasicInformation")</li>
+                                        <li>@Html.ActionLink("User Info", "BasicInformation", "Registration")</li>
                                         <li>@Html.ActionLink("Logout", "Logout", "Registration")</li>
-                                        <li><a href="">More</a></li>
-                                        <li><a href="">More</a></li>
-                                        <li><a href="">Log Out</a></li>
+                                        <li>@Html.ActionLink("Change Password", "ChangePassword", "Settings")</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -122,36 +131,109 @@
                             <div class="row">
 
                                 <!-- main col left -->
-
                                 @if (Model != null)
                                 {
+                                    BasicInfo userInfo = new BasicInfo();
                                     <table>
-                                        @ViewBag.Message
                                         @foreach (var item in Model)
                                         {
-                                            BitBookContext db = new BitBookContext();
 
 
-                                            var userInfo = db.BasicInfos.Where(x => x.UserId.Equals(item.Id)).FirstOrDefault();
+                                            userInfo = db.BasicInfos.FirstOrDefault(x => x.UserId.Equals(item.Id));
 
 
-                                            <div class="col-sm-5">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <button type="button" class="btn btn-primary">Add Friend</button>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <a href="~/Registration/Profile/@item.Id">
-                                                            <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" style="height: 40px">   <a href="~/Registration/Profile/@item.Id">@item.FirstName </a>
-                                                            <div class="clearfix">@userInfo.</div>
-                                                            <hr>
+                                            if (userInfo == null)
+                                            {
+                                                <div class="panel-body">
+                                                    <a href="~/Registration/Profile/@item.Id">
+                                                        <a href="~/Registration/Profile/@item.Id">@item.FirstName </a>
+                                                        <hr>
+                                                    </a>
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+
+                                                <div class="col-sm-5">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+
+                                                            @{
+
+
+
+                                                var userFriend = db.UserFriends.Where(p => p.UserId == item.Id
+                                                                       && p.FriendId == user.Id).FirstOrDefault();
+
+                                                            }
+
+                                                            @if (userFriend == null)
+                                                            {
+
+                                                                <form method="post" action="@Url.Action("SendRequest", "Registration")">
+
+                                                                    <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                    <button type="submit" class="btn btn-primary">Add Friend</button>
+
+                                                                </form>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                if (userFriend.Friendstatus == 1)
+                                                                {
+                                                                    //Request sent
+                                                                    <form method="post" action="@Url.Action("AcceptRequest", "Registration")">
+
+                                                                        <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                        <button type="submit" class="btn btn-primary">Accept Request</button>
+
+                                                                    </form>
+                                                                }
+                                                                else if (userFriend.Friendstatus == 2)
+                                                                {
+                                                                    //your are friend and Undfriend
+                                                                    <form method="post" action="@Url.Action("Unfriend", "Registration")">
+
+                                                                        <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                        <button type="submit" class="btn btn-primary">Undfriend</button>
+
+                                                                    </form>
+                                                                }
+                                                                else if (userFriend.Friendstatus == 3)
+                                                                {
+                                                                    //your are friend and Undfriend
+                                                                    <form method="post" action="@Url.Action("Unfriend", "Registration")">
+
+                                                                        <input type="hidden" name="friendId" value=@item.Id>
+
+                                                                        <button type="submit" class="btn btn-primary">Cancel Request</button>
+
+                                                                    </form>
+                                                                }
+
+                                                            }
+
+
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <a href="~/Registration/Profile/@item.Id">
+                                                                <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" style="height: 40px">   <a href="~/Registration/Profile/@item.Id">@item.FirstName </a>
+                                                                <div class="clearfix">@userInfo.About</div>
+                                                                <hr>
                                                             </a>
+                                                        </div>
                                                     </div>
                                                 </div>
 
+                                            }
 
-                                            </div>
 
+                                            
                                         }
 
                                     </table>
@@ -160,24 +242,24 @@
                                 {
                                     <p>
                                         @ViewBag.Message
-                                </p>
+                                    </p>
                                 }
 
 
 
 
 
-                                
+
 
                                 <!-- main col right -->
                                 <div class="col-sm-7">
 
 
-                                    
 
-                                    
 
-                                    
+
+
+
 
                                 </div>
                             </div><!--/row-->
@@ -249,15 +331,15 @@
     <script type="text/javascript" src="~/assets/js/jquery.js"></script>
     <script type="text/javascript" src="~/assets/js/bootstrap.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-			$('[data-toggle=offcanvas]').click(function() {
-				$(this).toggleClass('visible-xs text-center');
-				$(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
-				$('.row-offcanvas').toggleClass('active');
-				$('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
-				$('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
-				$('#btnShow').toggle();
-			});
+        $(document).ready(function () {
+            $('[data-toggle=offcanvas]').click(function () {
+                $(this).toggleClass('visible-xs text-center');
+                $(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
+                $('.row-offcanvas').toggleClass('active');
+                $('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
+                $('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
+                $('#btnShow').toggle();
+            });
         });
     </script>
 </body>

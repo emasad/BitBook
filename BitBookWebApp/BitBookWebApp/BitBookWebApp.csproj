@@ -288,9 +288,38 @@
     <Compile Include="Migrations\201609241608165_UpdateBasicInfoTable.Designer.cs">
       <DependentUpon>201609241608165_UpdateBasicInfoTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609280105138_AddFriendTable.cs" />
+    <Compile Include="Migrations\201609280105138_AddFriendTable.Designer.cs">
+      <DependentUpon>201609280105138_AddFriendTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609280107365_UdpateUserFriendModel.cs" />
+    <Compile Include="Migrations\201609280107365_UdpateUserFriendModel.Designer.cs">
+      <DependentUpon>201609280107365_UdpateUserFriendModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609281007155_UserPostsEntityIsCreated.cs" />
+    <Compile Include="Migrations\201609281007155_UserPostsEntityIsCreated.Designer.cs">
+      <DependentUpon>201609281007155_UserPostsEntityIsCreated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609281632315_LikePostsCreated.cs" />
+    <Compile Include="Migrations\201609281632315_LikePostsCreated.Designer.cs">
+      <DependentUpon>201609281632315_LikePostsCreated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609282139153_CommentEntityisCreated.cs" />
+    <Compile Include="Migrations\201609282139153_CommentEntityisCreated.Designer.cs">
+      <DependentUpon>201609282139153_CommentEntityisCreated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609301103527_UserFrindClassUpdate.cs" />
+    <Compile Include="Migrations\201609301103527_UserFrindClassUpdate.Designer.cs">
+      <DependentUpon>201609301103527_UserFrindClassUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BasicInfo.cs" />
+    <Compile Include="Models\LikePost.cs" />
+    <Compile Include="Models\UserComment.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserFriend.cs" />
+    <Compile Include="Models\UserPost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +334,15 @@
     <Content Include="Views\Settings\ChangePassword.cshtml" />
     <Content Include="Views\Registration\NotExist.cshtml" />
     <Content Include="Views\Registration\SearchUser.cshtml" />
+    <Content Include="Views\Registration\SendRequest.cshtml" />
+    <Content Include="Views\Registration\AcceptRequest.cshtml" />
+    <Content Include="Views\Registration\Unfriend.cshtml" />
+    <Content Include="Views\Registration\NumberFriend.cshtml" />
+    <Content Include="Views\Registration\RequestF.cshtml" />
+    <Content Include="Views\Registration\WhoLike.cshtml" />
+    <Content Include="Views\Settings\ChangeCover.cshtml" />
+    <Content Include="Views\Settings\ChangeProfilePhoto.cshtml" />
+    <Content Include="Views\Registration\EditBasicInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -315,7 +353,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\coverPic\" />
+    <Folder Include="Images\postImages\" />
     <Folder Include="Images\profilePic\" />
+    <Folder Include="PostImages\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201609230914320_UserRegistrationTableIsCreatedInDB.resx">
@@ -326,6 +366,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609241608165_UpdateBasicInfoTable.resx">
       <DependentUpon>201609241608165_UpdateBasicInfoTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280105138_AddFriendTable.resx">
+      <DependentUpon>201609280105138_AddFriendTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280107365_UdpateUserFriendModel.resx">
+      <DependentUpon>201609280107365_UdpateUserFriendModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609281007155_UserPostsEntityIsCreated.resx">
+      <DependentUpon>201609281007155_UserPostsEntityIsCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609281632315_LikePostsCreated.resx">
+      <DependentUpon>201609281632315_LikePostsCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609282139153_CommentEntityisCreated.resx">
+      <DependentUpon>201609282139153_CommentEntityisCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609301103527_UserFrindClassUpdate.resx">
+      <DependentUpon>201609301103527_UserFrindClassUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

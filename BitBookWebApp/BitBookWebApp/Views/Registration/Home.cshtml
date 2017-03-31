@@ -1,12 +1,24 @@
-﻿@{
+﻿@using System.Linq
+@using BitBookWebApp.Context
+@{
     Layout = null;
+
+    BitBookContext db = new BitBookContext();
+
+    string userEmail = "";
+    userEmail = Session["email"].ToString();
+
+    var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+    var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
+                                              && p.Friendstatus == 2).ToList();
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Facebook Theme Demo</title>
+    <title>BitBook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="~/assets/css/bootstrap.css" rel="stylesheet">
     <!--[if lt IE 9]>
@@ -43,14 +55,14 @@
 
                     <ul class="nav hidden-xs" id="lg-menu">
                         <li class="active"><a href="#featured"><i class="glyphicon glyphicon-list-alt"></i> Featured</a></li>
-                        <li><a href="#stories"><i class="glyphicon glyphicon-list"></i> Stories</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-paperclip"></i> Saved</a></li>
+                        <li><a href="~/Registration/RequestF"><i class="glyphicon glyphicon-list"></i> Friend Request</a></li>
+                        <li><a href="~/Registration/NumberFriend"><i class="glyphicon glyphicon-paperclip"></i> Friend List</a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-refresh"></i> Refresh</a></li>
                     </ul>
                     <ul class="list-unstyled hidden-xs" id="sidebar-footer">
-                        <li>
+                        @*<li>
                             <a href="#"><h3>Bootstrap</h3> <i class="glyphicon glyphicon-heart-empty"></i> BitBook</a>
-                        </li>
+                        </li>*@
                     </ul>
 
                     <!-- tiny only nav-->
@@ -101,7 +113,8 @@
 
                                 </li>
                                 <li>
-                                    <a href="~/Registration/UserProfile"><span class="badge">Welcome @Session["email"].ToString()</span></a>
+                                    <a href="~/Registration/UserProfile"><span class="badge">@user.FirstName @user.SurName</span></a>
+
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
@@ -111,8 +124,7 @@
                                         <li>@Html.ActionLink("User Info", "BasicInformation")</li>
                                         <li>@Html.ActionLink("Logout", "Logout", "Registration")</li>
                                         <li>@Html.ActionLink("Change Password", "ChangePassword", "Settings")</li>
-                                        <li><a href="">More</a></li>
-                                        <li><a href="">Log Out</a></li>
+                                        
                                     </ul>
                                 </li>
                             </ul>
@@ -142,51 +154,28 @@
                                     </div>
 
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Bootstrap Examples</h4></div>
-                                        <div class="panel-body">
-                                            <div class="list-group">
-                                                <a href="~/Registration/Home" class="list-group-item">Modal / Dialog</a>
-                                                <a href="~/Registration/Home" class="list-group-item">Datetime Examples</a>
-                                                <a href="~/Registration/Home" class="list-group-item">Data Grids</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
 
                                     <div class="well">
-                                        <form class="form-horizontal" role="form">
-                                            <h4>What's New</h4>
-                                            <div class="form-group" style="padding:14px;">
-                                                <textarea class="form-control" placeholder="Update your status"></textarea>
+
+                                        @using (Html.BeginForm("PostContent", "Registration", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <div>
+                                                Post<br />
+                                                @*<input class="form-control" name="PostText" id="srch-term" type="text">*@<br />
+                                                <div class="form-group" style="padding:14px;">
+                                                    <textarea class="form-control" name="PostText" id="srch-term" placeholder="Update your status"></textarea>
+                                                </div>
+                                                <input type="file" name="file" id="file" style="width: 100%;" /> <br />
+                                                <input type="submit" value="Post" class="submit" />
                                             </div>
-                                            <button class="btn btn-primary pull-right" type="button">Post</button><ul class="list-inline"><li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li><li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li><li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li></ul>
-                                        </form>
+                                        }
+
                                     </div>
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>More Templates</h4></div>
-                                        <div class="panel-body">
-                                            <img src="~/assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">Free</a>
-                                            <div class="clearfix"></div>
-                                            There a load of new free Bootstrap 3
-                                            ready templates at BitBook. All of these templates are free and don't
-                                            require extensive customization to the Bootstrap baseline.
-                                            <hr>
-                                            <ul class="list-unstyled"><li><a href="~/Registration/Home">Dashboard</a></li><li><a href="~/Registration/Home">Darkside</a></li><li><a href="~/Registration/Home">Greenfield</a></li></ul>
-                                        </div>
-                                    </div>
+                                    
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><h4>What Is Bootstrap?</h4></div>
-                                        <div class="panel-body">
-                                            Bootstrap is front end frameworkto
-                                            build custom web applications that are fast, responsive &amp; intuitive.
-                                            It consist of CSS and HTML for typography, forms, buttons, tables,
-                                            grids, and navigation along with custom-built jQuery plug-ins and
-                                            support for responsive layouts. With dozens of reusable components for
-                                            navigation, pagination, labels, alerts etc..
-                                        </div>
-                                    </div>
+                                    
 
 
 
@@ -195,53 +184,129 @@
                                 <!-- main col right -->
                                 <div class="col-sm-7">
 
+                                    @{
+                                        foreach (var friend in userFriend)
+                                        {
+                                            var userInfo = db.BasicInfos.FirstOrDefault(x => x.UserId==friend.FriendId);
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>BitBook Editor &amp; Code Library</h4></div>
-                                        <div class="panel-body">
-                                            <p><img src="~/assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">The Bootstrap Playground</a></p>
-                                            <div class="clearfix"></div>
-                                            <hr>
-                                            Design, build, test, and prototype
-                                            using Bootstrap in real-time from your Web browser. BitBook combines the
-                                            power of hand-coded HTML, CSS and JavaScript with the benefits of
-                                            responsive design using Bootstrap. Find and showcase Bootstrap-ready
-                                            snippets in the 100% free BitBook.com code repository.
-                                        </div>
-                                    </div>
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Stackoverflow</h4></div>
-                                        <div class="panel-body">
-                                            <img src="~/assets/img/150x150.gif" class="img-circle pull-right"> <a href="#">Keyword: Bootstrap</a>
-                                            <div class="clearfix"></div>
-                                            <hr>
+                                            var userPosts = db.UserPosts.Where(p => p.UserId == friend.FriendId).ToList();
 
-                                            <p>If you're looking for help with Bootstrap code, the <code>twitter-bootstrap</code> tag at <a href="http://stackoverflow.com/questions/tagged/twitter-bootstrap">Stackoverflow</a> is a good place to find answers.</p>
 
-                                            <hr>
-                                            <form>
-                                                <div class="input-group">
-                                                    <div class="input-group-btn">
-                                                        <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
+
+                                            foreach (var item in userPosts)
+                                            {
+
+                                                string color = "btn-primary";
+                                                var likeStatus = db.LikePosts.FirstOrDefault(a => a.UserId.Equals(user.Id) && a.PostId.Equals(item.Id));
+                                                if (likeStatus == null)
+                                                {
+
+                                                     color= "btn-primary";
+
+                                                }
+
+                                                else
+                                                {
+                                                    color = "btn-danger";
+                                                }
+
+                                                var posts = db.LikePosts.Where(x=>x.PostId.Equals(item.Id)).ToList();
+                                                int i = posts.Count();
+                                                var posterId = db.Users.FirstOrDefault(a => a.Id == item.UserId);
+                                                
+                                                
+                                                
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4>@item.CurrretTime</h4>
                                                     </div>
-                                                    <input class="form-control" placeholder="Add a comment.." type="text">
+                                                    <div class="panel-body">
+                                                        <img src="~/Images/profilePic/@userInfo.ProfilePicUrl" class="img-circle pull-right"> <a href="~/Registration/Profile/@item.UserId">@posterId.FirstName @posterId.SurName</a>
+                                                        <div class="clearfix"></div>
+                                                        <hr>
+
+                                                        <p>
+                                                            @item.PostText
+                                                        </p>
+                                                        <div class="panel-thumbnail"><img src="~/Images/postImages/@item.ImageUrl" class="img-responsive">
+                                                        </div>
+                                                        <div>
+
+                                                            <form method="post" action="@Url.Action("LikeUserPost", "Registration")">
+
+                                                                <input type="hidden" name="id" value=@item.Id>
+
+                                                                <button type="submit" class="btn @color">+@i</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="input-group-btn">
+                                                            <form method="post" action="@Url.Action("WhoLike", "Registration")">
+
+                                                                <input type="hidden" name="id" value=@item.Id>
+
+                                                                <button type="submit" class="btn btn-primary">View list</button>
+                                                            </form>
+                                                        </div>
+                                                        <hr>
+                                                        
+                                                            <div class="input-group">
+                                                                <div class="input-group-btn">
+
+                                                                    
+
+                                                                </div>
+
+                                                                <form method="post" action="@Url.Action("Comment", "Registration")">
+                                                                    <input type="hidden" name="id" value=@item.Id>
+                                                                    <input class="form-control" placeholder="Add a comment.." type="text" name="commentText" value=commentText>
+                                                                    <button type="submit" class="btn btn-info">Add Comment</button>
+                                                                </form>
+
+                                                @{
+                                                //show comment
+                                                var post = db.UserComments.Where(x => x.PostId == item.Id).ToList();
+
+                                                if (post != null)
+                                                {
+
+                                                    foreach (var idn in post)
+                                                    {
+                                                        var commentor = db.Users.FirstOrDefault(x => x.Id == idn.UserId);
+                                                        var commentorInfo = db.BasicInfos.FirstOrDefault(x => x.Id == idn.UserId);
+                                                        if (commentorInfo == null)
+                                                        {
+                                                            throw new ArgumentNullException("commentorInfo");
+                                                        }
+
+
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-body">
+                                                                <img src="~/Images/profilePic/@commentorInfo.ProfilePicUrl" class="img-circle pull-left"> <a href="~/Registration/Profile/@commentor.Id">@commentor.FirstName @commentor.SurName</a>
+                                                                <div class="clearfix"></div>
+                                                                @idn.PostText
+                                                                <hr>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                 }
+                                                 
+                                                 }
+                                                 
+                                                                
+                                                                
+                                                            </div>
+                                                    </div>
+
                                                 </div>
-                                            </form>
 
-                                        </div>
-                                    </div>
+                                            }
 
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading"><a href="#" class="pull-right">View all</a> <h4>Portlet Heading</h4></div>
-                                        <div class="panel-body">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">Modals</li>
-                                                <li class="list-group-item">Sliders / Carousel</li>
-                                                <li class="list-group-item">Thumbnails</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                        }
+
+
+                                    }
+
 
                                     <div class="panel panel-default">
                                         <div class="panel-thumbnail"><img src="~/assets/img/bg_4.jpg" class="img-responsive"></div>

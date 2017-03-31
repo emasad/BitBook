@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.Security;
 using BitBookWebApp.BitBook.Core.BLL;
 using BitBookWebApp.Context;
 using BitBookWebApp.Models;
@@ -39,11 +42,11 @@ namespace BitBookWebApp.Controllers
 
                     if (isSaved)
                     {
-                        ViewBag.StatusMessage = "Save is successed.";
+                        return RedirectToAction("BasicInformation", "Registration");
                     }
                     else
                     {
-                        ViewBag.StatusMessage = "Saved Fail";
+                        ViewBag.StatusMessage = "Registration Fail, Please Try Again";
                     }
                 }
 
@@ -91,11 +94,16 @@ namespace BitBookWebApp.Controllers
             {
                 using (BitBookContext aBitBookContext = new BitBookContext())
                 {
-                    var log = aBitBookContext.Users.Where(a => a.Email.Equals(lg.Email) && a.Password.Equals(lg.Password)).FirstOrDefault();
+                    var log = aBitBookContext.Users.FirstOrDefault(a => a.Email.Equals(lg.Email) && a.Password.Equals(lg.Password));
+                    //var userInfoId = aBitBookContext.BasicInfos.FirstOrDefault(a => a.UserId == log.Id);
                     if (log != null)
                     {
                         Session["email"] = log.Email;
-                        return RedirectToAction("Home", "Registration");
+
+                        
+                        return RedirectToAction("BasicInformation", "Registration");
+                            
+                        
                     }
 
                     else
@@ -129,8 +137,21 @@ namespace BitBookWebApp.Controllers
         //Get: LogOut
         public ActionResult Logout()
         {
-            Session.Clear();
-            return RedirectToAction("Login", "Registration");
+
+            if (Session["email"] != null)
+            {
+
+                Session.Clear(); Session.Abandon(); Session.RemoveAll();
+                return RedirectToAction("Login", "Registration");
+                
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+            
         }
         
 
@@ -307,10 +328,13 @@ namespace BitBookWebApp.Controllers
                 //check that user id is exist
                 BitBookContext db = new BitBookContext();
 
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
 
-                var user = db.BasicInfos.Where(x => x.UserId.Equals(id)).FirstOrDefault();
+                var userInfo = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+                var user = db.BasicInfos.FirstOrDefault(x => x.UserId.Equals(id));
 
-                if (user != null)
+                if (user != null && userInfo.Id!=id)
                 {
                     //if friend
 
@@ -322,7 +346,7 @@ namespace BitBookWebApp.Controllers
 
                 else
                 {
-                    return RedirectToAction("NotExist", "Registration");
+                    return RedirectToAction("UserProfile", "Registration");
                     
                 }
 
@@ -357,11 +381,11 @@ namespace BitBookWebApp.Controllers
         public ActionResult SearchUser(string searchTerm)
         {
             
-            if (Session["email"] != null)
+             if (Session["email"] != null)
             {
                 BitBookContext db = new BitBookContext();
                 List<User> users;
-                if (string.IsNullOrEmpty(searchTerm))
+                if (string.IsNullOrWhiteSpace(searchTerm))
                 {
                     users = null;
                 }
@@ -382,6 +406,456 @@ namespace BitBookWebApp.Controllers
             }
         }
 
+
+        //Send Friend Request
+        
+        public ActionResult SendRequest(int friendId)
+        {
+
+            if (Session["email"] != null)
+            {
+                
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+                var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
+                                              && p.FriendId == friendId).FirstOrDefault();
+                //if own user
+
+                if (user.Id==friendId || userFriend!=null)
+                {
+                    return RedirectToAction("UserProfile", "Registration" );
+
+
+                }
+                else
+                {
+                    UserFriend aUserFriend = new UserFriend();
+                    aUserFriend.UserId = user.Id;
+                    aUserFriend.FriendId = friendId;
+                    aUserFriend.Friendstatus = 1;
+
+                    db.UserFriends.Add(aUserFriend);
+                    db.SaveChanges();
+
+                    aUserFriend.UserId =friendId;
+                    aUserFriend.FriendId = user.Id;
+                    aUserFriend.Friendstatus = 3;
+
+                    db.UserFriends.Add(aUserFriend);
+                    db.SaveChanges();
+                    return View();
+                    
+                }
+                
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+
+        //Accept friend request
+
+        public ActionResult AcceptRequest(int friendId)
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+                //1stupdate
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+                var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
+                                              && p.FriendId == friendId).FirstOrDefault();
+
+                if (userFriend==null)
+                {
+
+                    return RedirectToAction("Home", "Registration");
+
+                }
+                else
+                {
+
+                    userFriend.Friendstatus = 2;
+                    db.UserFriends.Attach(userFriend);
+                    db.Entry(userFriend).Property(x => x.Friendstatus).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
+
+                    db.SaveChanges();
+                    //second update
+
+                    var userFriend2 = db.UserFriends.Where(p => p.UserId == friendId
+                                                  && p.FriendId == user.Id).FirstOrDefault();
+
+
+                    userFriend2.Friendstatus = 2;
+                    db.UserFriends.Attach(userFriend2);
+                    db.Entry(userFriend2).Property(x => x.Friendstatus).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
+
+                    db.SaveChanges();
+                    return View();
+                }
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+        //Undfriend or cancel
+        public ActionResult Unfriend(int friendId)
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+                //1stupdate
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+                var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
+                                              && p.FriendId == friendId).FirstOrDefault();
+
+
+                if (userFriend==null)
+                {
+                    return RedirectToAction("Home", "Registration");
+
+                }
+                else
+                {
+                    //userFriend.Friendstatus = 2;
+                    //db.UserFriends.Attach(userFriend);
+                    //db.Entry(userFriend).Property(x => x.Friendstatus).IsModified = true;
+                    //db.Configuration.ValidateOnSaveEnabled = false;
+                    db.UserFriends.Remove(userFriend);
+                    db.SaveChanges();
+                    //second update
+
+                    var userFriend2 = db.UserFriends.Where(p => p.UserId == friendId
+                                                  && p.FriendId == user.Id).FirstOrDefault();
+
+
+                    //userFriend2.Friendstatus = 2;
+                    //db.UserFriends.Attach(userFriend2);
+                    //db.Entry(userFriend2).Property(x => x.Friendstatus).IsModified = true;
+                    //db.Configuration.ValidateOnSaveEnabled = false;
+                    db.UserFriends.Remove(userFriend2);
+                    db.SaveChanges();
+                    db.SaveChanges();
+                    return View();
+                }
+                
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+        //Post a post
+        public ActionResult PostContent(HttpPostedFileBase file)
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+                string postImage = null;
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+
+                if (ModelState.IsValid)
+                {
+                        if (file != null)
+                        {
+                            if (file.ContentLength > 0)
+                            {
+                                //Cover Photo
+
+                                postImage = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(file.FileName);
+
+                                string physicalPath = System.IO.Path.Combine(Server.MapPath("~/Images/postImages"), postImage);
+
+                                // save image in folder
+                                file.SaveAs(physicalPath);
+
+                                
+                            }
+                        }
+
+                            UserPost aUserPost = new UserPost();
+
+                            aUserPost.PostText = Request.Form["PostText"];
+                            aUserPost.UserId = user.Id;
+                    if (file != null)
+                    {
+                        aUserPost.ImageUrl = postImage;
+                        
+                    }
+                            aUserPost.CurrretTime = DateTime.Now;
+                            db.UserPosts.Add(aUserPost);
+                            db.SaveChanges();
+                            return RedirectToAction("Home", "Registration");
+
+
+                    
+                    return RedirectToAction("Home", "Registration");
+
+                    
+                }
+                return RedirectToAction("Home", "Registration");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+
+        //Remove Post
+        public ActionResult RemovePost(int id)
+        {
+            if (Session["email"] != null)
+            {
+
+                BitBookContext db = new BitBookContext();
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+                //1stupdate
+                var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+                var postState = db.UserPosts.Where(p => p.Id == id && p.UserId == user.Id).FirstOrDefault();
+                db.UserPosts.Remove(postState);
+                db.SaveChanges();
+                return RedirectToAction("Home", "Registration");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+        //like a post
+
+        public ActionResult LikeUserPost(int id)
+        {
+            if (Session["email"] != null)
+            {
+
+                using (BitBookContext db = new BitBookContext())
+                {
+                    string userEmail = "";
+                    userEmail = Session["email"].ToString();
+
+                    var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+                    var likeStatus = db.LikePosts.FirstOrDefault(a => a.UserId.Equals(user.Id) && a.PostId.Equals(id));
+                    if (likeStatus == null)
+                    {
+
+
+                        LikePost aLikePost= new LikePost();
+                        aLikePost.PostId = id;
+                        aLikePost.UserId = user.Id;
+                        aLikePost.CurrretTime=DateTime.Now;
+
+                        db.LikePosts.Add(aLikePost);
+                        db.SaveChanges();
+                       
+                        return RedirectToAction("Home", "Registration");
+                    }
+
+                    else
+                    {
+                        Response.Write("<script> alert('You already like ')</script>");                        
+                    }
+                }
+                return RedirectToAction("Home", "Registration");
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+            
+        }
+        //
+        public ActionResult Comment(int id, string commentText)
+        {
+            if (Session["email"] != null)
+            {
+
+                using (BitBookContext db = new BitBookContext())
+                {
+                    string userEmail = "";
+                    userEmail = Session["email"].ToString();
+
+                    var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+                    
+
+
+                        UserComment aUserComment = new UserComment();
+                        aUserComment.PostId = id;
+                        aUserComment.UserId = user.Id;
+                        aUserComment.PostText = commentText;
+
+                        db.UserComments.Add(aUserComment);
+                        db.SaveChanges();
+
+                        return RedirectToAction("Home", "Registration");
+                    
+                }
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+        //number of friend request
+
+
+        //number of friend
+        public ActionResult NumberFriend()
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+
+                var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+
+                var userFriend = db.UserFriends.Where(p => p.UserId == user.Id && p.Friendstatus == 2).ToList();
+                ViewBag.Number = userFriend.Count();
+                ViewBag.User = userFriend.ToList();
+                return View();
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+
+        //Frind Request
+        public ActionResult RequestF()
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                string userEmail = "";
+                userEmail = Session["email"].ToString();
+
+                var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+
+                var userFriend = db.UserFriends.Where(p => p.UserId == user.Id && p.Friendstatus == 3).ToList();
+                ViewBag.Number = userFriend.Count();
+                ViewBag.User = userFriend.ToList();
+                return View();
+
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+        }
+
+
+        //User list Who like the post
+        public ActionResult WhoLike(int id)
+        {
+            if (Session["email"] != null)
+            {
+                BitBookContext db = new BitBookContext();
+
+                var userList = db.LikePosts.Where(x => x.PostId == id).ToList();
+
+                ViewBag.Number = userList.Count();
+                ViewBag.User = userList.ToList();
+                return View();
+
+                //string userEmail = "";
+                //userEmail = Session["email"].ToString();
+
+                //var user = db.Users.Where(x => x.Email.Equals(userEmail)).FirstOrDefault();
+
+                //var userFriend = db.UserFriends.Where(p => p.UserId == user.Id
+                //                                         && p.FriendId == aUser.Id).FirstOrDefault();
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Registration");
+
+            }
+            
+        }
+
+
+        //Edit basic info
+        [HttpGet]
+        public ActionResult EditBasicInfo()
+        {
+            return View();
+        }
+        //Post method edit basic info
+        [HttpPost]
+        public ActionResult EditBasicInfo(BasicInfoViewModel aBasicInfoViewModel)
+        {
+
+            BitBookContext db=new BitBookContext();
+            string userEmail = "";
+                userEmail = Session["email"].ToString();
+
+                var user = db.Users.FirstOrDefault(x => x.Email.Equals(userEmail));
+            //save new record in database
+            BasicInfo aBasicInfo = new BasicInfo();
+            aBasicInfo = db.BasicInfos.SingleOrDefault(x => x.UserId == user.Id);
+            aBasicInfo.About = aBasicInfoViewModel.About;
+            aBasicInfo.AreaOfInterest = aBasicInfoViewModel.AreaOfInterest;
+            aBasicInfo.Location = aBasicInfoViewModel.Location;
+            aBasicInfo.Education = aBasicInfoViewModel.Education;
+            aBasicInfo.Experience = aBasicInfoViewModel.Experience;
+            //Save in db
+            db.BasicInfos.AddOrUpdate(aBasicInfo);
+            db.SaveChanges();
+
+            return RedirectToAction("UserProfile", "Registration");
+
+        }
 
         //
     }
